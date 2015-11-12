@@ -1,0 +1,27 @@
+{
+  "name": "gigglr",
+  "version": "0.0.0",
+  "homepage": "https://github.com/amhester/Gigglr",
+  "authors": [
+    "amhester <amhester@anderson.edu>"
+  ],
+  "description": "search engine for funny stuff",
+  "main": "index.html",
+  "keywords": [
+    "humor",
+    "ml",
+    "search"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.2",
+    "material-design-lite": "~1.0.6"
+  }
+}
