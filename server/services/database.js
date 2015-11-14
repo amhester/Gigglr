@@ -54,6 +54,12 @@ class Database {
             case appConfig.Queries.GetBuddies:
                 buildQuery = this.getBuddies();
                 break;
+            case appConfig.Queries.GetContentById:
+                buildQuery = this.getContentById();
+                break;
+            case appConfig.Queries.GetUserContent:
+                buildQuery = this.getUserContent();
+                break;
             case appConfig.Queries.RequestBuddy:
                 buildQuery = this.requestBuddy();
                 shouldCommit = true;
@@ -93,21 +99,28 @@ class Database {
 
     getUserByUserName(){
         var query = function () {
-            g.V().has('userName', userName).next();
+            g.V().has('userName', userName);
         };
         return query;
     }
 
     getUserByEmailAddress(){
         var query = function () {
-            g.V().has('emailAddress', emailAddress).next();
+            g.V().has('emailAddress', emailAddress);
         };
         return query;
     }
 
     getUserById(){
         var query = function () {
-            g.V(userId).next();
+            g.V(userId);
+        };
+        return query;
+    }
+
+    getContentById(){
+        var query = function () {
+            g.V(contentId);
         };
         return query;
     }
@@ -115,6 +128,13 @@ class Database {
     getBuddies(){
         var query = function () {
             g.V(userId).bothE("Buddy").V();
+        };
+        return query;
+    }
+
+    getUserContent(){
+        var query = function () {
+            g.V(userId).hasLabel("User").outE("UserVote").inV();
         };
         return query;
     }
@@ -135,15 +155,16 @@ class Database {
 
     voteContent(){
         var query = function () {
-            var edge = g.V(userId).addEdge('UserVote', g.V(contentId), []);
+            var edge = g.V(userId).next().addEdge('UserVote', g.V(contentId).next(), []);
             edge.property('type', type);
+            edge;
         };
         return query;
     }
 
     shareContent(){
         var query = function () {
-            var edge = g.V(buddyUserId).addEdge('UserVote', g.V(contentId), []);
+            var edge = g.V(buddyUserId).next().addEdge('UserVote', g.V(contentId).next(), []);
             edge.property('type', 'Shared');
         };
         return query;
@@ -161,7 +182,7 @@ class Database {
 
     acceptBuddy(){
         var query = function () {
-            var edge = g.V(myUserId).bothE('Buddy').as('e').bothV().retain([g.V(buddyUserId)]).back('e').next();
+            var edge = g.V(myUserId).hasLabel('User').bothE('Buddy').as('e').bothV().retain(g.V(buddyUserId).next()).back('e').next();
             edge.property('Accepted', true);
         };
         return query;

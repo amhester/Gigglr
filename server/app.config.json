@@ -14,6 +14,8 @@
     "RequestBuddy": 7,
     "AcceptBuddy": 8,
     "GetBuddies": 9,
-    "ShareContent": 10
+    "ShareContent": 10,
+    "GetContentById": 11,
+    "GetUserContent": 12
   }
 }
