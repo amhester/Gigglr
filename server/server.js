@@ -3,8 +3,10 @@
 var restify = require('restify');
 var bunyan = require('bunyan');
 var config = require('./app.config.json');
+var routes = require('./routes/databaseRoutes.js');
 
-var log = bunyan.createLogger('com.gigglr.server.logger');
+
+var log = bunyan.createLogger({ name: 'com.gigglr.server.logger'});
 
 var server = restify.createServer({
     name: config.serverName,
@@ -24,7 +26,7 @@ server.use(restify.CORS());
 
 //register routes here
 
-
+routes.register(server);
 
 server.listen(config.serverPort, config.serverHost, function () {
     log.info(config.serverName + ' is now running, listening on ' + server.url);

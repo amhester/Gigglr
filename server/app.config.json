@@ -1,6 +1,19 @@
 {
   "serverName": "Gigglr",
   "version": "0.0.1",
-  "serverHost": "127.0.0.1",
-  "serverPort": 8179
+  "serverHost": "localhost",
+  "serverPort": 8179,
+  "databasePort": 8182,
+  "Queries": {
+    "InsertUser": 1,
+    "InsertContent": 2,
+    "VoteContent": 3,
+    "GetUserByUserId": 4,
+    "GetUserByUserName": 5,
+    "GetUserByEmailAddress": 6,
+    "RequestBuddy": 7,
+    "AcceptBuddy": 8,
+    "GetBuddies": 9,
+    "ShareContent": 10
+  }
 }
