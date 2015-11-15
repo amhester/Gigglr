@@ -4,20 +4,25 @@ var appConfig = require('./../app.config.json');
 var BaseModel = require('./baseModel.js');
 
 var id = Symbol();
-var type = Symbol();
-var displayData = Symbol();
+var types = Symbol();
+var title = Symbol();
+var image = Symbol();
+var video = Symbol();
 var extraContent = Symbol();
 var externalLink = Symbol();
 
  class Content extends BaseModel{
 
-    constructor(inId, inType, inDisplayData, inExtraContent, inExternalLink) {
+    constructor(inId, inTypes, inTitle, inImage, inVideo, inExternalLink, inExtraContent) {
         super();
         this[id] = inId;
-        this[type] = inType;
-        this[displayData] = inDisplayData;
-        this[extraContent] = inExtraContent;
+        this[types] = inTypes ? inTypes.split(',') : undefined;
+        this[title] = inTitle;
+        this[image] = inImage;
+        this[video] = inVideo;
         this[externalLink] = inExternalLink;
+        this[extraContent] = inExtraContent;
+
     }
 
      get id() {
@@ -27,11 +32,18 @@ var externalLink = Symbol();
          this[id] = value;
      }
 
-     get type() {
-         return this[type];
+     get types() {
+         return this[types];
      }
-     set type(value) {
-         this[type] = value;
+     set types(value) {
+         this[types] = value;
+     }
+
+     get title() {
+         return this[title];
+     }
+     set title(value) {
+         this[title] = value;
      }
 
      set displayData(value) {
@@ -41,11 +53,18 @@ var externalLink = Symbol();
          return this[displayData];
      }
 
-     get extraContent() {
-         return this[extraContent];
+     get image() {
+         return this[image];
      }
-     set extraContent(value) {
-         this[extraContent] = value;
+     set image(value) {
+         this[image] = value;
+     }
+
+     get video() {
+         return this[video];
+     }
+     set video(value) {
+         this[video] = value;
      }
 
      get externalLink() {
@@ -53,6 +72,21 @@ var externalLink = Symbol();
      }
      set externalLink(value) {
          this[externalLink] = value;
+     }
+
+     get extraContent() {
+         return this[extraContent];
+     }
+     set extraContent(value) {
+         this[extraContent] = value;
+     }
+
+     insert(req, res, next){
+         var q = {
+             query: appConfig.Queries.InsertContent,
+             params: this.toDataInsertJson()
+         };
+         this.executeBaseQuery(q, req, res, next);
      }
 
      create(req, res, next, callback){
@@ -103,27 +137,112 @@ var externalLink = Symbol();
          this.executeBaseQuery(q, req, res, next, callback);
      }
 
-    toJson(){
+     getAll(req, res, next, callback){
+         var q = {
+             query: appConfig.Queries.GetAllContent,
+             params: { contentId: req.params.q }
+         };
+         this.executeBaseQuery(q, req, res, next, callback);
+     }
+
+     toDataInsertJson(){
         return {
-            id: this[id],
-            type: this[type],
-            displayData: this[displayData],
-            extraContent: this[extraContent],
+            types: this[types].join(','),
+            title: this[title],
+            imageLink: this[image] ? this[image].link : '',
+            imageHeight: this[image] ? this[image].height : '',
+            imageWidth: this[image] ? this[image].width : '',
+            videoLink: this[video] ? this[video].link : '',
+            videoHeight: this[video] ? this[video].height : '',
+            videoWidth: this[video] ? this[video].width : '',
             externalLink: this[externalLink],
+            extraContent: this[extraContent]
         }
     }
+
+     toJson(){
+         return {
+             id: this[id],
+             types: this[types],
+             title: this[title],
+             image: this[image],
+             video: this[video],
+             externalLink: this[externalLink],
+             extraContent: this[extraContent]
+         }
+     }
+
+     loadDataFromSearch(item){
+         this.parseImageCriteria(item);
+         this.parseVideoCriteria(item);
+         this.parseBaseCriteria(item);
+         return this;
+     }
+
+     parseImageCriteria(item){
+         if (item.pagemap){
+             if (item.pagemap.cse_thumbnail && item.pagemap.cse_thumbnail.length){
+                 this[image] = {
+                     link: item.pagemap.cse_thumbnail[0].src,
+                     height: item.pagemap.cse_thumbnail[0].height,
+                     width: item.pagemap.cse_thumbnail[0].width
+                 };
+             }
+         }
+     }
+
+     parseVideoCriteria(item){
+         if (item && item.pagemap){
+             if (item.pagemap.videoobject && item.pagemap.videoobject.length){
+                 this[video] = {
+                     link: item.pagemap.videoobject[0].embedurl,
+                     height: item.pagemap.videoobject[0].height,
+                     width: item.pagemap.videoobject[0].width
+                 };
+             }
+         }
+     }
+
+     parseBaseCriteria(item){
+         this[types] = [];
+         if (item){
+             this[title] = item.htmlTitle;
+             this[externalLink] = item.link;
+             this[extraContent] = item.htmlSnippet;
+         }
+         if (this[image]){
+             this[types].push('image');
+         }
+         if (this[video]){
+             this[types].push('video');
+         }
+         if (this[externalLink]){
+             this[types].push('text');
+         }
+
+     }
 
     parseResult(error, results, res, req, next, callback){
         var returnObject = {};
         returnObject.models = [];
+        console.log(results);
         for (var i = 0; i < results.length; i++){
-            console.log(results);
             returnObject.models.push(new Content(
                 results[i].id,
-                results[i].properties.type[0].value,
-                results[i].properties.displayData[0].value,
-                results[i].properties.extraContent[0].value,
-                results[i].properties.externalLink[0].value
+                results[i].properties.types ? results[i].properties.types.value : '',
+                results[i].properties.title ? results[i].properties.title[0].value : '',
+                {
+                    link: results[i].properties.imageLink ? results[i].properties.imageLink[0].value : '',
+                    height: results[i].properties.imageHeight ? results[i].properties.imageHeight[0].value : '',
+                    width: results[i].properties.imageHeight ? results[i].properties.imageHeight[0].value : ''
+                },
+                {
+                    link: results[i].properties.videoLink ? results[i].properties.videoLink[0].value : '',
+                    height: results[i].properties.videoHeight ? results[i].properties.videoHeight[0].value : '',
+                    width: results[i].properties.videoWidth ? results[i].properties.videoWidth[0].value : ''
+                },
+                results[i].properties.externalLink ? results[i].properties.externalLink[0].value : '',
+                results[i].properties.extraContent ? results[i].properties.extraContent[0].value : ''
             ));
         }
         returnObject.error = error;

@@ -4,11 +4,13 @@ var appConfig = require('./../app.config.json');
 var database = require('../services/database.js');
 
 var error = Symbol();
+var titan = Symbol();
 
 class BaseModel{
 
     constructor(){
         this[error] = '';
+        this[titan] = new database();
     }
 
     get error() {
@@ -16,6 +18,13 @@ class BaseModel{
     }
     set error(value) {
         this[error] = value;
+    }
+
+    get titan() {
+        return this[titan];
+    }
+    set titan(value) {
+        this[titan] = value;
     }
 
     emitResult(resultObject, res, req, next) {
@@ -42,7 +51,7 @@ class BaseModel{
     };
 
     query(q, callback, res, req, next){
-        global.titan.execute(q, this.parseResult, res, req, next, callback);
+        this[titan].execute(q, this.parseResult, res, req, next, callback);
     }
 
     executeBaseQuery(q, req, res, next, callback){

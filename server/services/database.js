@@ -9,7 +9,7 @@ var COMMIT_ME = function () { g.tx().commit(); };
 class Database {
 
     constructor () {
-        this._client = gremlin.createClient(appConfig.databasePort, appConfig.serverHost, { language: 'nashorn', session: 'true' });
+        this._client = gremlin.createClient(appConfig.databasePort, appConfig.serverHost, { language: 'nashorn', session: true});
     }
 
     execute (q, callback, res, req, next, finalCallback) {
@@ -19,7 +19,6 @@ class Database {
         self._req = req;
         self._next = next;
         self._finalCallback = finalCallback;
-
         var queryObject = self.queryCaseStatement(q.query);
 
         if (!queryObject.query)
@@ -30,10 +29,12 @@ class Database {
         var stream = self._client.stream(queryObject.query, q.params);
 
         if (queryObject.commitTransaction){
+            console.log('commited');
             self._client.stream(COMMIT_ME);
         }
 
         stream.on('data', function(result) {
+            console.log(result);
             self._results.push(result);
         });
 
@@ -53,6 +54,9 @@ class Database {
         switch (query){
             case appConfig.Queries.GetUserByUserName:
                 buildQuery = this.getUserByUserName();
+                break;
+            case appConfig.Queries.GetAllContent:
+                buildQuery = this.getAllContent();
                 break;
             case appConfig.Queries.GetBuddies:
                 buildQuery = this.getBuddies();
@@ -131,6 +135,13 @@ class Database {
         return query;
     }
 
+    getAllContent(){
+        var query = function () {
+            g.V().hasLabel('Content');
+        };
+        return query;
+    }
+
     getBuddies(){
         var query = function () {
             g.V(userId).bothE("Buddy").bothV().filter(function(it) {
@@ -192,11 +203,19 @@ class Database {
 
     insertContent() {
         var query = function () {
-            g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'Content',
-                'type', type,
-                'displayData', displayData,
-                'extraContent', extraContent,
-                'externalLink', externalLink);
+            if (!g.V().has('title', title).hasNext()){
+                g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'Content',
+                    'types', types,
+                    'title', title,
+                    'imageLink', imageLink,
+                    'imageHeight', imageHeight,
+                    'imageWidth', imageWidth,
+                    'videoLink', videoLink,
+                    'videoHeight', videoHeight,
+                    'videoWidth', videoWidth,
+                    'externalLink', externalLink,
+                    'extraContent', extraContent);
+            }
         };
         return query;
     }

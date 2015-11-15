@@ -17,6 +17,7 @@
     "ShareContent": 10,
     "GetContentById": 11,
     "GetUserContent": 12,
+    "GetAllContent": 13,
     "GetViewedUserContent": 14
   }
 }
