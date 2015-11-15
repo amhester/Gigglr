@@ -12,9 +12,13 @@ class Database {
         this._client = gremlin.createClient(appConfig.databasePort, appConfig.serverHost, { language: 'nashorn', session: 'true' });
     }
 
-    execute (q, callback) {
+    execute (q, callback, res, req, next, finalCallback) {
         var self = this;
-        this._results = [];
+        self._results = [];
+        self._res = res;
+        self._req = req;
+        self._next = next;
+        self._finalCallback = finalCallback;
 
         var queryObject = self.queryCaseStatement(q.query);
 
@@ -34,12 +38,11 @@ class Database {
         });
 
         stream.on('end', function() {
-            log.info(this._results);
-            callback(false, self._results);
+            callback(false, self._results, self._res, self._req, self._next, self._finalCallback);
         });
 
         stream.on('error', function(e) {
-            callback(e, []);
+            callback(e, [], self._res, self._req, self._next, self._finalCallback);
         });
 
     }
@@ -127,7 +130,9 @@ class Database {
 
     getBuddies(){
         var query = function () {
-            g.V(userId).bothE("Buddy").V();
+            g.V(userId).bothE("Buddy").bothV().filter(function(it) {
+                return it.get().id() != userId;
+            });
         };
         return query;
     }
@@ -140,8 +145,9 @@ class Database {
     }
 
     //**********************************__END_GETS__******************************
-
+    //****************************************************************************
     //**********************************__WRITES__********************************
+
     insertUser(){
         var query = function () {
             g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'User',
@@ -164,8 +170,12 @@ class Database {
 
     shareContent(){
         var query = function () {
-            var edge = g.V(buddyUserId).next().addEdge('UserVote', g.V(contentId).next(), []);
-            edge.property('type', 'Shared');
+            var result = [];
+            if (!g.V(buddyUserId).hasLabel('User').outE('UserVote').inV().hasNext()){
+                result = g.V(buddyUserId).next().addEdge('UserVote', g.V(contentId).next(), []);
+                result.property('type', 'Shared');
+            }
+            result;
         };
         return query;
     }
@@ -174,24 +184,37 @@ class Database {
         var query = function () {
             g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'Content',
                 'type', type,
-                'link', link,
-                'innerContent', innerContent);
+                'displayData', displayData,
+                'extraContent', extraContent,
+                'externalLink', externalLink);
         };
         return query;
     }
 
     acceptBuddy(){
         var query = function () {
-            var edge = g.V(myUserId).hasLabel('User').bothE('Buddy').as('e').bothV().retain(g.V(buddyUserId).next()).back('e').next();
-            edge.property('Accepted', true);
+            var path = g.V(myUserId).hasLabel('User').inE().hasLabel('Buddy').has('Accepted', false).outV().hasLabel('User').hasId(buddyUserId).path().next();
+            var result = [];
+            if (path){
+                result = path.get(1);
+                result.property('Accepted', true);
+            }
+            result;
         };
         return query;
     }
 
     requestBuddy(){
         var query = function () {
-            var edge = g.V(myUserId).next().addEdge("Buddy", g.V(buddyUserId).next());
-            edge.property('Accepted', false);
+            var existingEdge = g.V(myUserId).hasLabel('User').bothE('Buddy').bothV().hasId(buddyUserId);
+            if (!existingEdge.hasNext()){
+                var edge = g.V(myUserId).next().addEdge("Buddy", g.V(buddyUserId).next());
+                edge.property('Accepted', false);
+                edge;
+            }
+            else{
+                existingEdge;
+            }
         };
         return query;
     }

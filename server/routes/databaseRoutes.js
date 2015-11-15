@@ -4,144 +4,46 @@
 var bunyan = require('bunyan');
 var appConfig = require('./../app.config.json');
 var database = require('../services/database.js');
+var User = require('../models/user.js');
+var Content = require('../models/content.js');
 
 
 module.exports.register = function (server) {
-
-    var titan = new database();
-
-    server.get('/search/:q', function (req, res, next) {
-        var q = req.params.q;
-        next();
-    });
-
-    server.get('/userById/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.GetUserByUserId,
-            params: { userId: req.params.q }
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
-    });
-
-    server.get('/userByName/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.GetUserByUserName,
-            params: { userName: req.params.q }
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
-    });
-
-    server.get('/getUserContent/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.GetUserContent,
-            params: { userId: req.params.q }
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
-    });
-
-    server.get('/userByEmail/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.GetUserByEmailAddress,
-            params: { emailAddress: req.params.q }
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
-    });
-
-    server.get('/getContentById/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.GetContentById,
-            params: { contentId: req.params.q }
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
-    });
-
     server.post('/user/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.InsertUser,
-            params: req.params
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
+        new User().create(req, res, next);
     });
-
+    server.post('/requestBuddy/:q', function (req, res, next) {
+        new User().sendFriendRequest(req, res, next);
+    });
+    server.post('/acceptBuddy/:q', function (req, res, next) {
+        new User().approveFriendRequest(req, res, next);
+    });
     server.post('/content/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.InsertContent,
-            params: req.params
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
+        new Content().create(req, res, next);
     });
-
     server.post('/vote/:q', function (req, res, next) {
-        var q = {
-            query: appConfig.Queries.VoteContent,
-            params: req.params
-        };
-        titan.execute(q, function (error, results) {
-            if(error) {
-                req.log.error('Database Error: %s', error);
-                res.send(500, error);
-            } else {
-                res.send(200, results);
-            }
-        });
-        next();
+        new Content.vote(req, res, next);
     });
-
+    server.post('/shareContent/:q', function (req, res, next) {
+        new Content().share(req, res, next);
+    });
+    server.get('/userById/:q', function (req, res, next) {
+        new User().getById(req, res, next);
+    });
+    server.get('/userByName/:q', function (req, res, next) {
+        new User().getByName(req, res, next);
+    });
+    server.get('/userByEmail/:q', function (req, res, next) {
+        new User().getByEmailAddress(req, res, next);
+    });
+    server.get('/getBuddies/:q', function (req, res, next) {
+        new User().getFriends(req, res, next);
+    });
+    server.get('/getUserContent/:q', function (req, res, next) {
+        new Content().getByUserId(req, res, next);
+    });
+    server.get('/getContentById/:q', function (req, res, next) {
+        new Content().getById(req, res, next);
+    });
 };
 

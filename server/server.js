@@ -4,6 +4,8 @@ var restify = require('restify');
 var bunyan = require('bunyan');
 var config = require('./app.config.json');
 var routes = require('./routes/databaseRoutes.js');
+var database = require('./services/database.js');
+
 
 
 var log = bunyan.createLogger({ name: 'com.gigglr.server.logger'});
@@ -12,6 +14,9 @@ var server = restify.createServer({
     name: config.serverName,
     version: config.version
 });
+
+global.titan = new database();
+
 
 server.on('after', function (req, res, route, error) {
 
