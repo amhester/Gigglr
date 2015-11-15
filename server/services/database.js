@@ -63,6 +63,9 @@ class Database {
             case appConfig.Queries.GetUserContent:
                 buildQuery = this.getUserContent();
                 break;
+            case appConfig.Queries.GeViewedtUserContent:
+                buildQuery = this.getViewedUserContent();
+                break;
             case appConfig.Queries.RequestBuddy:
                 buildQuery = this.requestBuddy();
                 shouldCommit = true;
@@ -140,6 +143,13 @@ class Database {
     getUserContent(){
         var query = function () {
             g.V(userId).hasLabel("User").outE("UserVote").inV();
+        };
+        return query;
+    }
+
+    getViewedUserContent(){
+        var query = function () {
+            g.V(userId).hasLabel("User").outE("UserVote").filter(function(it){ return it.type != 'shared' } ).inV();
         };
         return query;
     }

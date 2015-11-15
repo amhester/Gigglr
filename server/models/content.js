@@ -87,6 +87,14 @@ var externalLink = Symbol();
          this.executeBaseQuery(q, req, res, next, callback);
      }
 
+     getViewedByUserId(req, res, next, callback){
+         var q = {
+             query: appConfig.Queries.GetViewedUserContent,
+             params: { userId: req.params.q }
+         };
+         this.executeBaseQuery(q, req, res, next, callback);
+     }
+
      getById(req, res, next, callback){
          var q = {
              query: appConfig.Queries.GetContentById,

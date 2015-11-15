@@ -45,5 +45,8 @@ module.exports.register = function (server) {
     server.get('/getContentById/:q', function (req, res, next) {
         new Content().getById(req, res, next);
     });
+    server.get('/getViewedContentByUserId/:q', function (req, res, next) {
+        new Content().getViewedByUserId(req, res, next);
+    });
 };
 

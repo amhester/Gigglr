@@ -16,6 +16,7 @@
     "GetBuddies": 9,
     "ShareContent": 10,
     "GetContentById": 11,
-    "GetUserContent": 12
+    "GetUserContent": 12,
+    "GetViewedUserContent": 14
   }
 }
