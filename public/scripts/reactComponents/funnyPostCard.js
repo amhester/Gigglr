@@ -24,17 +24,17 @@ var FunnyPostCard = React.createClass({
     render () {
         let post = this.props.post;
         return (
-            <section className="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+            <section className="postSection hasMedia" style={{position: 'relative'}}>
                     {(function () {
                         if(post.mediaMetaData.type === 'image') {
                             return (
-                                <header className="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+                                <header className="postMedia">
                                     <img src={post.mediaUrl} alt="Funny Picture" width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} className="funnyPost-picture" />
                                 </header>
                             );
                         } else if(post.mediaMetaData.type === 'asdfasdf') {
                             return (
-                                <header className="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+                                <header className="postMedia">
                                     <video width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} controls>
                                         <source src={post.mediaUrl} />
                                         Your browser does not support html5 video.
@@ -43,16 +43,18 @@ var FunnyPostCard = React.createClass({
                             );
                         } else if (post.mediaMetaData.type === 'video') {
                             return (
-                                <header className="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
-                                    <iframe width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} src={post.mediaUrl} frameborder="0">
-                                    </iframe>
+                                <header className="postMedia">
+                                    <div className="aspect-ratio">
+                                        <iframe width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} src={post.mediaUrl} frameBorder="0">
+                                        </iframe>
+                                    </div>
                                 </header>
                             );
                         } else {
                             return null;
                         }
                     })()}
-                <div className="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+                <div className="postCard">
                     <div className="mdl-card__supporting-text">
                         <h4>{post.title}</h4>
                         {post.text}
@@ -61,7 +63,7 @@ var FunnyPostCard = React.createClass({
                         <a href={post.source} target="_blank" className="mdl-button">Go to source</a>
                     </div>
                 </div>
-                <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon favorite">
                     <i className="material-icons">favorite_border</i>
                 </button>
             </section>
