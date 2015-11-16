@@ -12,7 +12,7 @@ gulp.task("clean", [], function () {
     return gulp.src('build', { read: false }).pipe(clean());
 });
 
-gulp.task("sassify", [], function () {
+gulp.task("sassify", ["clean"], function () {
     console.log("Sassifying stuff...");
     gulp.src('public/style/styles.scss')
         .pipe(sass.sync().on('error', sass.logError))
@@ -24,7 +24,7 @@ gulp.task("watchSass", function () {
     gulp.watch('**/*.scss', ['sassify']);
 });
 
-gulp.task("moveStatics", ["clean"], function () {
+gulp.task("moveStatics", ["sassify"], function () {
     gulp.src('public/images/*')
         .pipe(gulp.dest('build/public/images'));
 
@@ -32,7 +32,7 @@ gulp.task("moveStatics", ["clean"], function () {
         .pipe(gulp.dest('build/public'));
 });
 
-gulp.task("build", ["sassify", "moveStatics"], function () {
+gulp.task("build", ["moveStatics"], function () {
     //var jsFilter = filter("**/*.js", { restore: true });
     //var cssFilter = filter("**/*.css", { restore: true });
 
