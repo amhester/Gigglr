@@ -13,9 +13,15 @@ gulp.task("clean", [], function () {
 });
 
 gulp.task("sassify", [], function () {
+    console.log("Sassifying stuff...");
     gulp.src('public/style/styles.scss')
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(gulp.dest('public/style'));
+    console.log("Done Sassifyin");
+});
+
+gulp.task("watchSass", function () {
+    gulp.watch('**/*.scss', ['sassify']);
 });
 
 gulp.task("moveStatics", ["clean"], function () {
