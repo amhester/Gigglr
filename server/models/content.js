@@ -22,7 +22,6 @@ var externalLink = Symbol();
         this[video] = inVideo;
         this[externalLink] = inExternalLink;
         this[extraContent] = inExtraContent;
-
     }
 
      get id() {
@@ -129,6 +128,14 @@ var externalLink = Symbol();
          this.executeBaseQuery(q, req, res, next, callback);
      }
 
+     dropAll(req, res, next, callback){
+         var q = {
+             query: appConfig.Queries.DropAllContent,
+             params: { userId: req.params.q }
+         };
+         this.executeBaseQuery(q, req, res, next, callback);
+     }
+
      getById(req, res, next, callback){
          var q = {
              query: appConfig.Queries.GetContentById,
@@ -206,7 +213,7 @@ var externalLink = Symbol();
      parseBaseCriteria(item){
          this[types] = [];
          if (item){
-             this[title] = item.htmlTitle;
+             this[title] = item.title;
              this[externalLink] = item.link;
              this[extraContent] = item.htmlSnippet;
          }
@@ -225,7 +232,6 @@ var externalLink = Symbol();
     parseResult(error, results, res, req, next, callback){
         var returnObject = {};
         returnObject.models = [];
-        console.log(results);
         for (var i = 0; i < results.length; i++){
             returnObject.models.push(new Content(
                 results[i].id,

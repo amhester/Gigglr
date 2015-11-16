@@ -29,12 +29,10 @@ class Database {
         var stream = self._client.stream(queryObject.query, q.params);
 
         if (queryObject.commitTransaction){
-            console.log('commited');
             self._client.stream(COMMIT_ME);
         }
 
         stream.on('data', function(result) {
-            console.log(result);
             self._results.push(result);
         });
 
@@ -69,6 +67,10 @@ class Database {
                 break;
             case appConfig.Queries.GeViewedtUserContent:
                 buildQuery = this.getViewedUserContent();
+                break;
+            case appConfig.Queries.DropAllContent:
+                buildQuery = this.dropAllContent();
+                shouldCommit = true;
                 break;
             case appConfig.Queries.RequestBuddy:
                 buildQuery = this.requestBuddy();
@@ -142,6 +144,13 @@ class Database {
         return query;
     }
 
+    dropAllContent(){
+        var query = function () {
+            g.V().hasLabel('Content').drop();
+        };
+        return query;
+    }
+
     getBuddies(){
         var query = function () {
             g.V(userId).bothE("Buddy").bothV().filter(function(it) {
@@ -205,6 +214,7 @@ class Database {
         var query = function () {
             if (!g.V().has('title', title).hasNext()){
                 g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'Content',
+                    //'id', id,
                     'types', types,
                     'title', title,
                     'imageLink', imageLink,

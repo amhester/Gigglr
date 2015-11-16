@@ -18,6 +18,7 @@
     "GetContentById": 11,
     "GetUserContent": 12,
     "GetAllContent": 13,
-    "GetViewedUserContent": 14
+    "GetViewedUserContent": 14,
+    "DropAllContent": 15
   }
 }
