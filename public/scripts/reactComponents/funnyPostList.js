@@ -14,10 +14,14 @@ var FunnyPostList = React.createClass({
     },
 
     render () {
-        return (
-            <div>
-                { this.state.posts.map((p) => { return (<FunnyPost post={p}></FunnyPost>); }) }
-            </div>
-        );
+        if(this.state.posts && this.state.posts.length) {
+            return (
+                <div>
+                    { this.state.posts.map((p) => { return (<FunnyPost post={p}></FunnyPost>); }) }
+                </div>
+            );
+        } else {
+            return (<div></div>);
+        }
     }
 });

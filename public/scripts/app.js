@@ -3,13 +3,13 @@ var dispatcher = new Dispatcher();
 var funnyPostStore = new FunnyPostStore('funnyPostStore');
 
 function init() {
-    React.render(
+    ReactDOM.render(
         <GigglrSearch />,
         document.querySelector('#GigglrSearchContainer')
     );
 
-    React.render(
-        <GigglrSearch />,
+    ReactDOM.render(
+        <FunnyPostList />,
         document.querySelector('#PostListContainer')
     );
 }
