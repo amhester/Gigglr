@@ -59,18 +59,12 @@ const FunnyPostCard = React.createClass({
                         {post.text}
                     </div>
                     <div class="mdl-card__actions">
-                        <button onclick="{this.like}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon js-like-button">
-                            <i class="material-icons">thumb_up</i>
-                        </button>
-                        <button onclick="{this.dislike}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon js-dislike-button">
-                            <i class="material-icons">thumb_down</i>
-                        </button>
-                        <button onclick="{this.share()}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon js-share-button">
-                            <i class="material-icons">share</i>
-                        </button>
                         <a href="{post.source}" class="mdl-button">Go to source</a>
                     </div>
                 </div>
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn6">
+                    <i class="material-icons">favorite_border</i>
+                </button>
             </section>
         );
     }
