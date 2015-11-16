@@ -4,16 +4,18 @@ var appConfig = require('./../app.config.json');
 var BaseModel = require('./baseModel.js');
 
 var id = Symbol();
+var customId = Symbol();
 var types = Symbol();
 var title = Symbol();
 var image = Symbol();
 var video = Symbol();
+var tags = Symbol();
 var extraContent = Symbol();
 var externalLink = Symbol();
 
  class Content extends BaseModel{
 
-    constructor(inId, inTypes, inTitle, inImage, inVideo, inExternalLink, inExtraContent) {
+    constructor(inId, inTypes, inTitle, inImage, inVideo, inExternalLink, inExtraContent, inCustomId) {
         super();
         this[id] = inId;
         this[types] = inTypes ? inTypes.split(',') : undefined;
@@ -22,6 +24,7 @@ var externalLink = Symbol();
         this[video] = inVideo;
         this[externalLink] = inExternalLink;
         this[extraContent] = inExtraContent;
+        this[customId] = inCustomId;
     }
 
      get id() {
@@ -29,6 +32,13 @@ var externalLink = Symbol();
      }
      set id(value) {
          this[id] = value;
+     }
+
+     get customId() {
+         return this[customId];
+     }
+     set customId(value) {
+         this[customId] = value;
      }
 
      get types() {
@@ -80,6 +90,13 @@ var externalLink = Symbol();
          this[extraContent] = value;
      }
 
+     get tags() {
+         return this[tags];
+     }
+     set tags(value) {
+         this[tags] = value;
+     }
+
      insert(req, res, next){
          var q = {
              query: appConfig.Queries.InsertContent,
@@ -120,6 +137,14 @@ var externalLink = Symbol();
          this.executeBaseQuery(q, req, res, next, callback);
      }
 
+     getByTag(req, res, next, callback){
+         var q = {
+             query: appConfig.Queries.GetContentByTag,
+             params: { myTitle: req.params.q  }
+         };
+         this.executeBaseQuery(q, req, res, next, callback);
+     }
+
      getViewedByUserId(req, res, next, callback){
          var q = {
              query: appConfig.Queries.GetViewedUserContent,
@@ -154,6 +179,8 @@ var externalLink = Symbol();
 
      toDataInsertJson(){
         return {
+            id: this[id] ? this[id] : '',
+            customId: this[customId] ? this[customId] : '',
             types: this[types].join(','),
             title: this[title],
             imageLink: this[image] ? this[image].link : '',
@@ -170,6 +197,7 @@ var externalLink = Symbol();
      toJson(){
          return {
              id: this[id],
+             customId: this[customId],
              types: this[types],
              title: this[title],
              image: this[image],
@@ -216,6 +244,7 @@ var externalLink = Symbol();
              this[title] = item.title;
              this[externalLink] = item.link;
              this[extraContent] = item.htmlSnippet;
+             this[customId] = this.guid().toString();
          }
          if (this[image]){
              this[types].push('image');
@@ -248,12 +277,21 @@ var externalLink = Symbol();
                     width: results[i].properties.videoWidth ? results[i].properties.videoWidth[0].value : ''
                 },
                 results[i].properties.externalLink ? results[i].properties.externalLink[0].value : '',
-                results[i].properties.extraContent ? results[i].properties.extraContent[0].value : ''
+                results[i].properties.extraContent ? results[i].properties.extraContent[0].value : '',
+                results[i].properties.customId ? results[i].properties.customId[0].value : ''
             ));
         }
         returnObject.error = error;
         callback(returnObject, res, req, next);
     }
+
+     guid() {
+         function _p8(s) {
+             var p = (Math.random().toString(16)+"000000000").substr(2,8);
+             return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
+         }
+         return _p8() + _p8(true) + _p8(true) + _p8();
+     }
 }
 
 module.exports = Content;

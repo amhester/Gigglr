@@ -4,12 +4,16 @@ var gremlin = require('gremlin-client');
 var bunyan = require('bunyan');
 var appConfig = require('./../app.config.json');
 var log = bunyan.createLogger({name: 'com.gigglr.services.database.logger'});
+var nlp = require("nlp_compromise")
 var COMMIT_ME = function () { g.tx().commit(); };
 
 class Database {
 
     constructor () {
-        this._client = gremlin.createClient(appConfig.databasePort, appConfig.serverHost, { language: 'nashorn', session: true});
+        if (!global.dbClient){
+            global.dbClient = gremlin.createClient(appConfig.databasePort, appConfig.serverHost, { language: 'nashorn', session: true});
+        }
+        this._client = global.dbClient;
     }
 
     execute (q, callback, res, req, next, finalCallback) {
@@ -37,6 +41,7 @@ class Database {
         });
 
         stream.on('end', function() {
+            console.log(self._results);
             callback(false, self._results, self._res, self._req, self._next, self._finalCallback);
         });
 
@@ -83,11 +88,21 @@ class Database {
             case appConfig.Queries.GetUserByUserId:
                 buildQuery = this.getUserById();
                 break;
+            case appConfig.Queries.GetAllTags:
+                buildQuery = this.getAllTags();
+                break;
+            case appConfig.Queries.GetContentByTag:
+                buildQuery = this.getContentByTag();
+                break;
             case appConfig.Queries.GetUserByEmailAddress:
                 buildQuery = this.getUserByEmailAddress();
                 break;
             case appConfig.Queries.InsertUser:
                 buildQuery = this.insertUser();
+                shouldCommit = true;
+                break;
+            case appConfig.Queries.InsertTag:
+                buildQuery = this.insertTag();
                 shouldCommit = true;
                 break;
             case appConfig.Queries.InsertContent:
@@ -132,14 +147,28 @@ class Database {
 
     getContentById(){
         var query = function () {
-            g.V(contentId);
+            g.V().hasLabel('Content').has('customId', contentId);
         };
         return query;
     }
 
     getAllContent(){
         var query = function () {
-            g.V().hasLabel('Content');
+            g.V().hasLabel('Content')
+        };
+        return query;
+    }
+
+    getContentByTag(){
+        var query = function () {
+            g.V().hasLabel('Tag').has('title', myTitle).inE('ContentTag').outV().hasLabel('Content');
+        };
+        return query;
+    }
+
+    getAllTags(){
+        var query = function () {
+            g.V().hasLabel('Tag');
         };
         return query;
     }
@@ -189,9 +218,21 @@ class Database {
         return query;
     }
 
+    insertTag(){
+        var query = function () {
+            if (!g.V().hasLabel('Tag').has('tagType', type).has('title', title).hasNext()){
+                g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'Tag',
+                    'title', title,
+                    'tagType', type,
+                    'varieties', varieties);
+            }
+        };
+        return query;
+    }
+
     voteContent(){
         var query = function () {
-            var edge = g.V(userId).next().addEdge('UserVote', g.V(contentId).next(), []);
+            var edge = g.V(userId).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
             edge.property('type', type);
             edge;
         };
@@ -202,7 +243,7 @@ class Database {
         var query = function () {
             var result = [];
             if (!g.V(buddyUserId).hasLabel('User').outE('UserVote').inV().hasNext()){
-                result = g.V(buddyUserId).next().addEdge('UserVote', g.V(contentId).next(), []);
+                result = g.V(buddyUserId).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
                 result.property('type', 'Shared');
             }
             result;
@@ -212,9 +253,10 @@ class Database {
 
     insertContent() {
         var query = function () {
+            var edge;
             if (!g.V().has('title', title).hasNext()){
-                g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'Content',
-                    //'id', id,
+                var vertex = g.addV('customId', customId,
+                    org.apache.tinkerpop.gremlin.structure.T.label, 'Content',
                     'types', types,
                     'title', title,
                     'imageLink', imageLink,
@@ -224,8 +266,19 @@ class Database {
                     'videoHeight', videoHeight,
                     'videoWidth', videoWidth,
                     'externalLink', externalLink,
-                    'extraContent', extraContent);
+                    'extraContent', extraContent).next();
+                if (vertex) {
+                    var verticies = g.V().hasLabel('Tag').filter(function (it) {
+                        return it.get().property('varieties').value().split(',').some(function (v) {
+                            return g.V(vertex.id()).next().property('title').value().toLowerCase().indexOf(v) > -1;
+                        });
+                    });
+                    while (verticies.hasNext()){
+                        edge = vertex.addEdge("ContentTag", verticies.next(), []);
+                    }
+                }
             }
+            edge;
         };
         return query;
     }

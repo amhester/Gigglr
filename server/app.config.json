@@ -19,6 +19,9 @@
     "GetUserContent": 12,
     "GetAllContent": 13,
     "GetViewedUserContent": 14,
-    "DropAllContent": 15
+    "DropAllContent": 15,
+    "InsertTag": 16,
+    "GetAllTags" : 17,
+    "GetContentByTag" : 18
   }
 }

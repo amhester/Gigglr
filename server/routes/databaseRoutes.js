@@ -6,6 +6,8 @@ var appConfig = require('./../app.config.json');
 var database = require('../services/database.js');
 var User = require('../models/user.js');
 var Content = require('../models/content.js');
+var Tag = require('../models/tag.js');
+
 
 
 module.exports.register = function (server) {
@@ -50,6 +52,12 @@ module.exports.register = function (server) {
     });
     server.get('/getAllContent/:q', function (req, res, next) {
         new Content().getAll(req, res, next);
+    });
+    server.get('/getContentByTag/:q', function (req, res, next) {
+        new Content().getByTag(req, res, next);
+    });
+    server.get('/getAllTags/:q', function (req, res, next) {
+        new Tag().getAll(req, res, next);
     });
     server.get('/getViewedContentByUserId/:q', function (req, res, next) {
         new Content().getViewedByUserId(req, res, next);
