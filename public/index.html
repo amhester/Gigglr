@@ -106,18 +106,33 @@
     </main>
 </div>
 
-<!-- Scripts -->
+<!-- 3rd Party Scripts -->
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="bower_components/material-design-lite/material.min.js"></script>
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/eventemitter/4.3.0/EventEmitter.min.js"></script>
-<script type="text/javascript" src="bower_components/react/react.min.js"></script>
-<script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+<!-- Our Scripts -->
+<!--build:js scripts/dispatcher.js -->
 <script type="text/javascript" src="scripts/dispatcher.js"></script>
+<!--build:js scripts/models/funnyPost.js -->
+<script type="text/javascript" src="scripts/models/funnyPost.js"></script>
+<!--build:js scripts/services/searchService.js -->
 <script type="text/javascript" src="scripts/services/searchService.js"></script>
-<!--<script type="text/javascript" src="scripts/stores/funnyPostStore.js"></script>
+<!--build:js scripts/services/interactionService.js -->
+<script type="text/javascript" src="scripts/services/interactionService.js"></script>
+<!--build:js scripts/stores/funnyPostStore.js -->
+<script type="text/javascript" src="scripts/stores/funnyPostStore.js"></script>
+<!--build:js scripts/reactComponents/gigglrSearch.js -->
+<script type="text/javascript" src="scripts/reactComponents/gigglrSearch.js"></script>
+<!--build:js scripts/reactComponents/funnyPostCard.js -->
 <script type="text/javascript" src="scripts/reactComponents/funnyPostCard.js"></script>
+<!--build:js scripts/reactComponents/funnyPostList.js -->
 <script type="text/javascript" src="scripts/reactComponents/funnyPostList.js"></script>
-<script type="text/javascript" src="scripts/app.js"></script>-->
+<!--build:js scripts/app.js -->
+<script type="text/javascript" src="scripts/app.js"></script>
 
 </body>
 </html>
