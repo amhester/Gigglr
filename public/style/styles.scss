@@ -1,0 +1,283 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* Material Design Lite  */
+
+// Variables and mixins
+@import "../bower_components/material-design-lite/src/variables";
+@import "../bower_components/material-design-lite/src/mixins";
+
+// Resets and dependencies
+@import "../bower_components/material-design-lite/src/resets/resets";
+@import "../bower_components/material-design-lite/src/typography/typography";
+
+// Components
+@import "../bower_components/material-design-lite/src/palette/palette";
+@import "../bower_components/material-design-lite/src/ripple/ripple";
+@import "../bower_components/material-design-lite/src/animation/animation";
+@import "../bower_components/material-design-lite/src/badge/badge";
+@import "../bower_components/material-design-lite/src/button/button";
+@import "../bower_components/material-design-lite/src/card/card";
+@import "../bower_components/material-design-lite/src/checkbox/checkbox";
+@import "../bower_components/material-design-lite/src/data-table/data-table";
+@import "../bower_components/material-design-lite/src/footer/mega_footer";
+@import "../bower_components/material-design-lite/src/footer/mini_footer";
+@import "../bower_components/material-design-lite/src/icon-toggle/icon-toggle";
+@import "../bower_components/material-design-lite/src/menu/menu";
+@import "../bower_components/material-design-lite/src/progress/progress";
+@import "../bower_components/material-design-lite/src/layout/layout";
+@import "../bower_components/material-design-lite/src/radio/radio";
+@import "../bower_components/material-design-lite/src/slider/slider";
+@import "../bower_components/material-design-lite/src/spinner/spinner";
+@import "../bower_components/material-design-lite/src/switch/switch";
+@import "../bower_components/material-design-lite/src/tabs/tabs";
+@import "../bower_components/material-design-lite/src/textfield/textfield";
+@import "../bower_components/material-design-lite/src/tooltip/tooltip";
+@import "../bower_components/material-design-lite/src/shadow/shadow";
+@import "../bower_components/material-design-lite/src/grid/grid";
+
+html, body {
+  font-family: 'Dosis', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+// .mdl-demo .mdl-layout__header-row {
+//   padding-left: 40px;
+// }
+// .mdl-demo .mdl-layout.is-small-screen .mdl-layout__header-row h3 {
+//   font-size: inherit;
+// }
+// .mdl-demo .mdl-layout__tab-bar-button {
+//   display: none;
+// }
+// .mdl-demo .mdl-layout.is-small-screen .mdl-layout__tab-bar .mdl-button {
+//   display: none;
+// }
+// .mdl-demo .mdl-layout:not(.is-small-screen) .mdl-layout__tab-bar,
+// .mdl-demo .mdl-layout:not(.is-small-screen) .mdl-layout__tab-bar-container {
+//   overflow: visible;
+// }
+// .mdl-demo .mdl-layout__tab-bar-container {
+//   height: 64px;
+// }
+// .mdl-demo .mdl-layout__tab-bar {
+//   padding: 0;
+//   padding-left: 16px;
+//   box-sizing: border-box;
+//   height: 100%;
+//   width: 100%;
+// }
+// .mdl-demo .mdl-layout__tab-bar .mdl-layout__tab {
+//   height: 64px;
+//   line-height: 64px;
+// }
+// .mdl-demo .mdl-layout__tab-bar .mdl-layout__tab.is-active::after {
+//   background-color: white;
+//   height: 4px;
+// }
+// .mdl-demo main > .mdl-layout__tab-panel {
+//   padding: 8px;
+//   padding-top: 48px;
+// }
+// .mdl-demo .mdl-card {
+//   height: auto;
+//   display: flex;
+//   flex-direction: column;
+// }
+// .mdl-demo .mdl-card > * {
+//   height: auto;
+// }
+
+
+// .mdl-demo #add {
+//   position: absolute;
+//   right: 40px;
+//   top: 36px;
+//   z-index: 999;
+// }
+
+// .mdl-demo .mdl-layout__content section:not(:last-of-type) {
+//   position: relative;
+//   margin-bottom: 48px;
+// }
+// .mdl-demo section.section--center {
+//   max-width: 860px;
+// }
+// .mdl-demo #features section.section--center {
+//   max-width: 620px;
+// }
+// .mdl-demo section > header{
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+// .mdl-demo section > .section__play-btn {
+//   min-height: 200px;
+// }
+// .mdl-demo section > header > .material-icons {
+//   font-size: 3rem;
+// }
+
+// .mdl-demo section .section__circle {
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-start;
+//   flex-grow: 0;
+//   flex-shrink: 1;
+// }
+// .mdl-demo section .section__text {
+//   flex-grow: 1;
+//   flex-shrink: 0;
+//   padding-top: 8px;
+// }
+// .mdl-demo section .section__text h5 {
+//   font-size: inherit;
+//   margin: 0;
+//   margin-bottom: 0.5em;
+// }
+// .mdl-demo section .section__text a {
+//   text-decoration: none;
+// }
+// .mdl-demo section .section__circle-container > .section__circle-container__circle {
+//   width: 64px;
+//   height: 64px;
+//   border-radius: 32px;
+//   margin: 8px 0;
+// }
+// .mdl-demo section.section--footer .section__circle--big {
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50px;
+//   margin: 8px 32px;
+// }
+// .mdl-demo .is-small-screen section.section--footer .section__circle--big {
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 25px;
+//   margin: 8px 16px;
+// }
+// .mdl-demo section.section--footer {
+//   padding: 64px 0;
+//   margin: 0 -8px -8px -8px;
+// }
+// .mdl-demo section.section--center .section__text:not(:last-child) {
+//   border-bottom: 1px solid rgba(0,0,0,.13);
+// }
+// .mdl-demo .mdl-card .mdl-card__supporting-text > h3:first-child {
+//   margin-bottom: 24px;
+// }
+// .mdl-demo .mdl-layout__tab-panel:not(#overview) {
+//   background-color: white;
+// }
+// .mdl-demo #features section {
+//   margin-bottom: 72px;
+// }
+// .mdl-demo #features h4, #features h5 {
+//   margin-bottom: 16px;
+// }
+// .mdl-demo .toc {
+//   border-left: 4px solid #C1EEF4;
+//   margin: 24px;
+//   padding: 0;
+//   padding-left: 8px;
+//   display: flex;
+//   flex-direction: column;
+// }
+// .mdl-demo .toc h4 {
+//   font-size: 0.9rem;
+//   margin-top: 0;
+// }
+// .mdl-demo .toc a {
+//   color: #4DD0E1;
+//   text-decoration: none;
+//   font-size: 16px;
+//   line-height: 28px;
+//   display: block;
+// }
+// .mdl-demo .mdl-menu__container {
+//   z-index: 99;
+// }
+
+$textGrey: rgb(97,97,97);
+$offWhite: rgb(245,245,245);
+$primaryColor: #00BCD4;
+
+body {
+  color: $textGrey;
+  background-color: $offWhite;  
+}
+
+.postSection {
+  @extend .mdl-grid;
+  max-width: 860px;
+  // @extend .mdl-grid--no-spacing;
+  @extend .mdl-shadow--2dp;
+  .postCard {
+    @extend .mdl-card;
+    @extend .mdl-cell, .mdl-cell--12-col-desktop;
+    border-radius: 3px;
+    h4 {
+      margin: 40px 10px 0 40px;
+    }
+    p {
+      margin: 0 40px 20px;
+      flex-grow: 1;
+      padding: 0;
+      color: inherit;
+    }
+  }
+  .actions {
+    margin: 0;
+    padding: 4px 40px;
+    a {
+      color: $primaryColor;
+      margin: 0;
+      &:hover, &:active {
+        background-color: transparent;        
+      }
+    }
+  }
+  .favorite {
+    position: absolute;
+    z-index: 99;
+    top: 20px;
+    right: 20px;
+    color: $textGrey;
+    cursor: pointer;
+    &:hover {
+      color: $primaryColor;
+    }
+  }
+  &.hasMedia {
+    .postCard {
+      @extend .mdl-cell--9-col-desktop;
+      border-radius: 0 3px 3px 0;
+    }
+    .postMedia {
+      @extend .mdl-cell--3-col-desktop;
+      min-height: 200px;
+      color: rgb(255,255,255);
+      background-color: rgb(178,223,219);
+      border-radius: 3px 0 0 3px;
+      .material-icons {
+        font-size: 3rem;
+        line-height: 200px;
+        text-align: center;
+        width: 100%;
+      }
+    }
+  }
+}
