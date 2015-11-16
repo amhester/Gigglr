@@ -92,7 +92,7 @@ var preferredSearchType = Symbol();
      getById(req, res, next, callback){
         var q = {
             query: appConfig.Queries.GetUserByUserId,
-            params: { userId: req.params.q }
+            params: { emailAddress: req.params.q }
         };
          this.executeBaseQuery(q, req, res, next, callback);
      }
