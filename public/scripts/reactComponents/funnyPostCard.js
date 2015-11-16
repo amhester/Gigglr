@@ -1,4 +1,4 @@
-const FunnyPostCard = React.createClass({
+var FunnyPostCard = React.createClass({
     _changePreference (preference) {
         InteractionService.changePreference(this.props.post.id, preference, function (err, res) {
             dispatcher.dispatch('funnyPostStore', 'update', [res.post]);

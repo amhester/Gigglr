@@ -13,11 +13,16 @@ class FunnyPostStore {
             this,
             {
                 add: this.addPost,
+                populate: this.populate,
                 update: this.updatePost,
                 remove: this.removePost,
                 clear: this.clearAll
             }
         );
+    }
+
+    _emitChange () {
+        eventer.emitEvent(this._name + 'Change');
     }
 
     getPost (post) {
@@ -30,6 +35,11 @@ class FunnyPostStore {
 
     addPost (post) {
 
+    }
+
+    populate (posts) {
+        this._posts = posts;
+        this._emitChange();
     }
 
     removePost (post) {
