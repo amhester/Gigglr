@@ -6,7 +6,7 @@ class InteractionService {
     static changePreference (id, preference, callback) {
         $.ajax({
             method: 'PUT',
-            url: '',
+            url: '127.0.0.1:8085/like',
             data: { preference: preference, id: id },
             success: function (res) {
                 callback(null, res);
