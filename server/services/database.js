@@ -217,6 +217,9 @@ class Database {
                     'emailAddress', emailAddress,
                     'prefSearchType', '');
             }
+            else {
+                g.V().hasLabel('User').has('emailAddress', emailAddress).next();
+            }
         };
         return query;
     }

@@ -126,6 +126,9 @@ var preferredSearchType = Symbol();
     parseResult(error, results, res, req, next, callback){
         var returnObject = {};
         returnObject.models = [];
+        if (!results || !results.length){
+            return;
+        }
         for (var i = 0; i < results.length; i++){
             returnObject.models.push(new User(
                 results[i].id,

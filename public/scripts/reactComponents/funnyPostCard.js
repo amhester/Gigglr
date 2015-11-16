@@ -21,6 +21,19 @@ var FunnyPostCard = React.createClass({
         });
     },
 
+    getDefaultProps () {
+        var returnObj;
+        if ($.cookie('userContext')){
+            returnObj = {};
+        }
+        else {
+            returnObj = {
+                display: 'none'
+            };
+        }
+        return returnObj;
+    },
+
     render () {
         let post = this.props.post;
         return (
@@ -61,7 +74,7 @@ var FunnyPostCard = React.createClass({
                         <a href={post.source} target="_blank" className="mdl-button">Go to source</a>
                     </div>
                 </div>
-                <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style={this.props.styles}>
                     <i className="material-icons">favorite_border</i>
                 </button>
             </section>

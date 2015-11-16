@@ -5,9 +5,9 @@ class InteractionService {
 
     static changePreference (id, preference, callback) {
         $.ajax({
-            method: 'PUT',
-            url: '127.0.0.1:8085/like',
-            data: { preference: preference, id: id },
+            method: 'POST',
+            url: 'http://localhost:8179/vote',
+            data: { type: preference, contentId: id, emailAddress: JSON.parse($.cookie('userContext')) },
             success: function (res) {
                 callback(null, res);
             },

@@ -108,9 +108,6 @@ function onSignIn(googleUser) {
         url: 'http://localhost:8179/user/',
         success: function (res) {
             console.log('inserted' + JSON.stringify(res));
-        },
-        error: function (err) {
-            console.log('error inserting user');
         }
     });
 

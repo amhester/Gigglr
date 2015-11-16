@@ -29,22 +29,26 @@ class BaseModel{
 
     emitResult(resultObject, res, req, next) {
         if(resultObject.error) {
-            req.log.error('Error Finding User: %s', resultObject.error);
             res.send(500, resultObject.error);
         } else {
-            if (resultObject.models.length > 1){
+            if (resultObject.models && resultObject.models.length > 1){
                 var resultArray = [];
                 for (var i = 0; i < resultObject.models.length; i++){
                     resultArray.push(resultObject.models[i].toJson());
                 }
                 res.send(200, resultArray);
             }
-            else if (resultObject.models.length == 0){
+            else if (resultObject.models && resultObject.models.length == 0){
                 res.send(200, {});
             }
             else
             {
-                res.send(200, resultObject.models[0].toJson());
+                if (resultObjext.models && resultObject.models.length){
+                    res.send(200, resultObject.models[0].toJson());
+                }
+                else{
+                    res.send(200, '');
+                }
             }
         }
         next();
