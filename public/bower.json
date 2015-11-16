@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "react": "~0.14.2",
-    "material-design-lite": "~1.0.6"
+    "material-design-lite": "~1.0.6",
+    "moment": "~2.10.6"
   }
 }
