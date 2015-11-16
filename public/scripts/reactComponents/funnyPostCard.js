@@ -32,16 +32,16 @@ var FunnyPostCard = React.createClass({
                                     <img src={post.mediaUrl} alt="Funny Picture" width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} className="funnyPost-picture" />
                                 </header>
                             );
-                        } else if(post.mediaMetaData.type === 'video') {
+                        } else if(post.mediaMetaData.type === 'asdfasdf') {
                             return (
                                 <header className="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
                                     <video width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} controls>
-                                        <source src={post.mediaUrl} type={post.mediaMetaData.format} />
+                                        <source src={post.mediaUrl} />
                                         Your browser does not support html5 video.
                                     </video>
                                 </header>
                             );
-                        } else if (post.mediaMetaData.type === 'embed') {
+                        } else if (post.mediaMetaData.type === 'video') {
                             return (
                                 <header className="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
                                     <iframe width={post.mediaMetaData.res.width} height={post.mediaMetaData.res.height} src={post.mediaUrl} frameborder="0">
@@ -58,7 +58,7 @@ var FunnyPostCard = React.createClass({
                         {post.text}
                     </div>
                     <div className="mdl-card__actions">
-                        <a href={post.source} className="mdl-button">Go to source</a>
+                        <a href={post.source} target="_blank" className="mdl-button">Go to source</a>
                     </div>
                 </div>
                 <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">

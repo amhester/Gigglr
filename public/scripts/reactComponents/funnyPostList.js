@@ -17,7 +17,7 @@ var FunnyPostList = React.createClass({
         if(this.state.posts && this.state.posts.length) {
             return (
                 <div>
-                    { this.state.posts.map((p) => { return (<FunnyPost post={p}></FunnyPost>); }) }
+                    { this.state.posts.map((p) => { return (<FunnyPostCard post={p}></FunnyPostCard>); }) }
                 </div>
             );
         } else {

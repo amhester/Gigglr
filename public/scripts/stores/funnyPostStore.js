@@ -30,7 +30,7 @@ class FunnyPostStore {
     }
 
     getAllPosts () {
-
+        return this._posts;
     }
 
     addPost (post) {

@@ -6,11 +6,10 @@ class SearchService {
     static search (q, callback) {
         $.ajax({
             method: 'GET',
-            url: '127.0.0.1:8085/search?q=' + q,
+            url: 'http://localhost:8179/search/' + q,
             success: function (res) {
-                if(res.statusCode == 200) {
-                    callback(null, res);
-                }
+                var data = res.map(function (o) { return new FunnyPost(o); });
+                callback(null, data);
             },
             error: function (err) {
                 callback(err);

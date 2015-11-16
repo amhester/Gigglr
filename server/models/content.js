@@ -243,7 +243,7 @@ var externalLink = Symbol();
          if (item){
              this[title] = item.title;
              this[externalLink] = item.link;
-             this[extraContent] = item.htmlSnippet;
+             this[extraContent] = item.snippet;
              this[customId] = this.guid().toString();
          }
          if (this[image]){

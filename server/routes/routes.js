@@ -19,7 +19,7 @@ module.exports.register = function (server) {
           burned things that we can load that they have not seen yet. Load them all in, if ther are less than 10,
           reach out to google*/
 
-        var something =  nlp.pos("Funny kitties running");
+        var something =  nlp.pos(q);
         console.log(something.text());
 
         var verbs = something.verbs();

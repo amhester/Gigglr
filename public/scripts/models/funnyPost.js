@@ -1,18 +1,20 @@
 class FunnyPost {
     constructor (data) {
-        this._postId = data.id;
+        var media = data.video ? data.video : (data.image ? data.image : '');
+        var mediaType = data.video ? 'video' : (data.image ? 'image' : 'none');
+        this._postId = data.customId;
         this._title = data.title || 'Untitled';
-        this._text = data.text || '';
-        this._mediaUrl = data.mediaUrl || '';
+        this._text = data.extraContent || '';
+        this._mediaUrl = media ? media.link : '';
         this._mediaMetaData = {
-            type: data.mediaType || 'none',
+            type: mediaType,
             res: {
-                width: data.media.resolution.width || 200,
-                height: data.media.resolution.height || 200
+                width: media.width || 200,
+                height: media.height || 200
             },
             format: data.mediaFormat || ''
         };
-        this._source = data.source || '';
+        this._source = data.externalLink;
         this._preference = data.preference || 0;
     }
 
