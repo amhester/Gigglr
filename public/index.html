@@ -9,43 +9,42 @@
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="images/favicon.ico">
+    <!--<link rel="icon" sizes="192x192" href="images/favicon.ico">-->
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Gigglr">
-    <link rel="apple-touch-icon-precomposed" href="images/favicon.ico">
+    <!--<link rel="apple-touch-icon-precomposed" href="images/favicon.ico">-->
 
     <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <!--<meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">-->
     <meta name="msapplication-TileColor" content="#3372DF">
 
-    <link rel="shortcut icon" href="images/favicon.png">
+    <!--<link rel="shortcut icon" href="images/favicon.png">-->
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link href='https://fonts.googleapis.com/css?family=Dosis:400,500,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!--build:css style/styles.css -->
     <link rel="stylesheet" href="style/styles.css">
-    <!-- endbuild -->
-    <style>
-        #view-source {
-            position: fixed;
-            display: block;
-            right: 0;
-            bottom: 0;
-            margin-right: 40px;
-            margin-bottom: 40px;
-            z-index: 900;
-        }
-    </style>
 </head>
-<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+    <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
             <div class="mdl-layout-spacer"></div>
+            <div id="GigglrSearchContainerSml">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <h1 class="" style="text-align: center;">Gigglr</h1>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
+                            <input class="mdl-textfield__input" type="text" id="GigglrSearch">
+                            <label class="mdl-textfield__label" for="GigglrSearch">Search for something funny by topic...</label>
+                        </div>
+                    </div>
+                </section>
+            </div>
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="profile">
                 <i class="material-icons">account_circle</i>
             </button>
@@ -60,7 +59,7 @@
     <main id="main" class="mdl-layout__content">
         <div id="GigglrSearchContainer">
         </div>
-
+        
         <div id="PostListContainer">
         </div>
     </main>
@@ -73,6 +72,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script>
+$( document ).ready(function() {
+    $('#GigglrSearchContainerSml').hide();
+    $(window).scroll(function() {
+        if ($(this).scrollTop()>30)
+        {
+            $('#GigglrSearchContainerSml').fadeIn();
+            $('#GigglrSearchContainer').fadeOut();
+        }
+        else
+        {
+            $('#GigglrSearchContainer').fadeIn();
+            $('#GigglrSearchContainerSml').fadeOut();
+        }
+    });
+});
+</script>
 
 <!-- Our Scripts -->
 <!--build:js scripts/dispatcher.js -->
