@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "bunyan": "^1.5.1",
+    "gremlin-client": "^1.0.3",
     "restify": "^4.0.3"
   }
 }
