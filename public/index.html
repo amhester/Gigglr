@@ -56,49 +56,53 @@
         </div>
     </header>
 
-    <main class="mdl-layout__content">
-        <section class="section--center mdl-grid mdl-grid--no-spacing" style="margin-top: 100px;">
-            <div class="mdl-cell mdl-cell--12-col">
-                <h1 class="" style="text-align: center;">Gigglr</h1>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
-                    <input class="mdl-textfield__input" type="text" id="GigglrSearch">
-                    <label class="mdl-textfield__label" for="GigglrSearch">Search for something funny by topic...</label>
+    <main id="main" class="mdl-layout__content">
+        <div id="GigglrSearchContainer">
+            <section class="section--center mdl-grid mdl-grid--no-spacing" style="margin-top: 100px;">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <h1 class="" style="text-align: center;">Gigglr</h1>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
+                        <input class="mdl-textfield__input" type="text" id="GigglrSearch">
+                        <label class="mdl-textfield__label" for="GigglrSearch">Search for something funny by topic...</label>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
-                <i class="material-icons">play_circle_filled</i>
-            </header>
-            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
-                <div class="mdl-card__supporting-text">
-                    <h4>Something Funny</h4>
-                    This is an example of some funny post (or something) that has either a picture or video with it.
+        <div id="PostListContainer">
+            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+                    <i class="material-icons">play_circle_filled</i>
+                </header>
+                <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card__supporting-text">
+                        <h4>Something Funny</h4>
+                        This is an example of some funny post (or something) that has either a picture or video with it.
+                    </div>
+                    <div class="mdl-card__actions">
+                        <a href="#" class="mdl-button">Go to source</a>
+                    </div>
                 </div>
-                <div class="mdl-card__actions">
-                    <a href="#" class="mdl-button">Go to source</a>
-                </div>
-            </div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn7">
-                <i class="material-icons">favorite_border</i>
-            </button>
-        </section>
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn7">
+                    <i class="material-icons">favorite_border</i>
+                </button>
+            </section>
 
-        <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="position: relative;">
-            <div class="mdl-card mdl-cell mdl-cell--12-col">
-                <div class="mdl-card__supporting-text">
-                    <h4>Something Funny</h4>
-                    This is an example of some funny post (or something) that has no picture or video, just plain text, yep that's it.
+            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="position: relative;">
+                <div class="mdl-card mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card__supporting-text">
+                        <h4>Something Funny</h4>
+                        This is an example of some funny post (or something) that has no picture or video, just plain text, yep that's it.
+                    </div>
+                    <div class="mdl-card__actions">
+                        <a href="#" class="mdl-button">Go to source</a>
+                    </div>
                 </div>
-                <div class="mdl-card__actions">
-                    <a href="#" class="mdl-button">Go to source</a>
-                </div>
-            </div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn6">
-                <i class="material-icons">favorite_border</i>
-            </button>
-        </section>
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn6">
+                    <i class="material-icons">favorite_border</i>
+                </button>
+            </section>
+        </div>
     </main>
 </div>
 
