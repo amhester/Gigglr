@@ -15,6 +15,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Gigglr">
+    <meta name="google-signin-client_id" content="480541194429-2potosaap419qldl9m1nmpb902tbupko.apps.googleusercontent.com">
+
+
     <!--<link rel="apple-touch-icon-precomposed" href="images/favicon.ico">-->
 
     <!-- Tile icon for Win8 (144x144 + tile color) -->
@@ -51,7 +54,7 @@
             <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="profile">
                 <li class="mdl-menu__item">Favorites</li>
                 <li class="mdl-menu__item">Settings</li>
-                <li class="mdl-menu__item">Change Account</li>
+                <li class="mdl-menu__item g-signin2" data-onsuccess="onSignIn" style="padding-top: 10px"></li>
             </ul>
         </div>
     </header>
@@ -72,6 +75,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" async defer></script>
+
 <script>
 $( document ).ready(function() {
     $('#GigglrSearchContainerSml').hide();
@@ -88,6 +94,27 @@ $( document ).ready(function() {
         }
     });
 });
+
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    userContext = profile;
+    $.cookie('userContext', JSON.stringify(profile));
+    $.ajax({
+        method: 'POST',
+        data: {
+            userName : profile.getName(),
+            emailAddress: profile.getEmail()
+        },
+        url: 'http://localhost:8179/user/',
+        success: function (res) {
+            console.log('inserted' + JSON.stringify(res));
+        },
+        error: function (err) {
+            console.log('error inserting user');
+        }
+    });
+
+}
 </script>
 
 <!-- Our Scripts -->

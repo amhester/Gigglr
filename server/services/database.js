@@ -30,6 +30,7 @@ class Database {
             callback(createError('Invalid query object'), []);
         }
 
+        console.log(q.params);
         var stream = self._client.stream(queryObject.query, q.params);
 
         if (queryObject.commitTransaction){
@@ -140,7 +141,7 @@ class Database {
 
     getUserById(){
         var query = function () {
-            g.V(userId);
+            g.V().hasLabel('User').has('emailAddress', emailAddress);
         };
         return query;
     }
@@ -182,7 +183,7 @@ class Database {
 
     getBuddies(){
         var query = function () {
-            g.V(userId).bothE("Buddy").bothV().filter(function(it) {
+            g.V().hasLabel('User').has('emailAddress', emailAddress).bothE("Buddy").bothV().filter(function(it) {
                 return it.get().id() != userId;
             });
         };
@@ -191,14 +192,14 @@ class Database {
 
     getUserContent(){
         var query = function () {
-            g.V(userId).hasLabel("User").outE("UserVote").inV();
+            g.V().hasLabel("User").has('emailAddress', emailAddress).outE("UserVote").inV();
         };
         return query;
     }
 
     getViewedUserContent(){
         var query = function () {
-            g.V(userId).hasLabel("User").outE("UserVote").filter(function(it){ return it.type != 'shared' } ).inV();
+            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it){ return it.type != 'shared' } ).inV();
         };
         return query;
     }
@@ -209,11 +210,13 @@ class Database {
 
     insertUser(){
         var query = function () {
-            g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'User',
-                'userName', userName,
-                'password', password,
-                'emailAddress', emailAddress,
-                'prefSearchType', prefSearchType);
+            if (!g.V().hasLabel('User').has('emailAddress', emailAddress).hasNext()){
+                g.addV(org.apache.tinkerpop.gremlin.structure.T.label, 'User',
+                    'userName', userName,
+                    'password', '',
+                    'emailAddress', emailAddress,
+                    'prefSearchType', '');
+            }
         };
         return query;
     }
@@ -232,7 +235,7 @@ class Database {
 
     voteContent(){
         var query = function () {
-            var edge = g.V(userId).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
+            var edge = g.V().hasLabel('User').has('emailAddress', emailAddress).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
             edge.property('type', type);
             edge;
         };
@@ -242,8 +245,8 @@ class Database {
     shareContent(){
         var query = function () {
             var result = [];
-            if (!g.V(buddyUserId).hasLabel('User').outE('UserVote').inV().hasNext()){
-                result = g.V(buddyUserId).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
+            if (!g.V().hasLabel('User').has('emailAddresss', buddyEmailAddress).hasLabel('User').outE('UserVote').inV().hasNext()){
+                result = g.V().hasLabel('User').has('emailAddress', buddEmailAddress).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
                 result.property('type', 'Shared');
             }
             result;
@@ -285,7 +288,7 @@ class Database {
 
     acceptBuddy(){
         var query = function () {
-            var path = g.V(myUserId).hasLabel('User').inE().hasLabel('Buddy').has('Accepted', false).outV().hasLabel('User').hasId(buddyUserId).path().next();
+            var path = g.V().hasLabel('User').has('emailAddress', myEmailAddress).hasLabel('User').inE().hasLabel('Buddy').has('Accepted', false).outV().hasLabel('User').has('emailAddresss', buddyEmailAddress).path().next();
             var result = [];
             if (path){
                 result = path.get(1);
@@ -298,7 +301,7 @@ class Database {
 
     requestBuddy(){
         var query = function () {
-            var existingEdge = g.V(myUserId).hasLabel('User').bothE('Buddy').bothV().hasId(buddyUserId);
+            var existingEdge = g.V().hasLabel('User').has('emailAddress', myEmailAddress).hasLabel('User').bothE('Buddy').bothV().hasLabel('User').has('emailAddresss', buddyEmailAddress);
             if (!existingEdge.hasNext()){
                 var edge = g.V(myUserId).next().addEdge("Buddy", g.V(buddyUserId).next());
                 edge.property('Accepted', false);
