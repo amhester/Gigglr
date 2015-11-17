@@ -26,6 +26,7 @@
     "InsertTag": 16,
     "GetAllTags" : 17,
     "GetContentByTag" : 18,
-    "FinalizeContent" : 19
+    "FinalizeContent" : 19,
+    "GetFavorites" : 20
   }
 }

@@ -88,6 +88,9 @@ class Database {
             case appConfig.Queries.GeViewedtUserContent:
                 buildQuery = this.getViewedUserContent();
                 break;
+            case appConfig.Queries.GetFavorites:
+                buildQuery = this.getFavorites();
+                break;
             case appConfig.Queries.DropAllContent:
                 buildQuery = this.dropAllContent();
                 shouldCommit = true;
@@ -216,7 +219,14 @@ class Database {
 
     getViewedUserContent(){
         var query = function () {
-            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it){ return it.type != '2'} ).inV();
+            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it) { return it.type != '2'} ).inV();
+        };
+        return query;
+    }
+
+    getFavorites(){
+        var query = function () {
+            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it) { return it.type == 1} ).inV();
         };
         return query;
     }

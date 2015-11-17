@@ -178,6 +178,14 @@ var externalLink = Symbol();
          this.executeBaseQuery(q, req, res, next, callback);
      }
 
+     getFavorites(req, res, next, callback){
+         var q = {
+             query: appConfig.Queries.GetFavorites,
+             params: { emailAddress: req.params.q }
+         };
+         this.executeBaseQuery(q, req, res, next, callback);
+     }
+
      getById(req, res, next, callback){
          var q = {
              query: appConfig.Queries.GetContentById,
