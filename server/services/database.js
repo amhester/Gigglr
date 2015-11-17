@@ -18,6 +18,7 @@ class Database {
 
     execute (q, callback, res, req, next, finalCallback) {
         var self = this;
+
         self._results = [];
         self._res = res;
         self._req = req;

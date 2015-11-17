@@ -40,6 +40,7 @@
     "gremlin-client": "^1.0.3",
     "gulp": "^3.9.0",
     "nlp_compromise": "^1.1.4",
+    "request": "^2.65.0",
     "restify": "^4.0.3"
   }
 }

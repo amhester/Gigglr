@@ -4,6 +4,8 @@
   "serverHost": "localhost",
   "serverPort": 8179,
   "databasePort": 8182,
+  "AppKey": "AIzaSyDHIiWActVZxN33I6oqFME8JtiDVBR8G0Y",
+  "AppId": "003880837062103800270%3Auirde4paq6g",
   "Queries": {
     "InsertUser": 1,
     "InsertContent": 2,
