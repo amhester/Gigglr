@@ -5,7 +5,7 @@ var GigglrSearch = React.createClass({
             SearchService.search(q, function (err, res) {
                 //dispatcher.dispatch('funnyPostStore', 'populate', [res]);
                     SearchService.finalizePosts(res, function (errLikes, resFinal) {
-                        dispatcher.dispatch('funnyPostStore', 'populate', [resFinal])
+                        dispatcher.dispatch('funnyPostStore', 'populate', [resFinal]);
                     });
             });
         }

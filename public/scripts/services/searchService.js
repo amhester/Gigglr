@@ -55,7 +55,7 @@ class SearchService {
     }
 
     static getFavorites (q, callback) {
-        var fUrl = 'http://localhost:8179/favorites/' + $.cookie('userContext');
+        var fUrl = 'http://localhost:8179/getFavorites/' + $.cookie('userContext');
         fUrl += (q) ? '?q=' + q : '';
         $.ajax({
             method: 'GET',

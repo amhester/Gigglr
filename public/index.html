@@ -52,7 +52,7 @@
                 <i class="material-icons">account_circle</i>
             </button>
             <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="profile">
-                <li class="mdl-menu__item">Favorites</li>
+                <li class="mdl-menu__item" id="GetFavorites">Favorites</li>
                 <li class="mdl-menu__item">Settings</li>
                 <li class="mdl-menu__item g-signin2" data-onsuccess="onSignIn" style="padding-top: 10px"></li>
             </ul>
@@ -95,6 +95,13 @@
             }
         });
         dispatcher.dispatch('funnyPostStore', 'signIn', [ $.cookie('userContext') ? true : false ]);
+        $('#GetFavorites').on('click', function () {
+            SearchService.getFavorites(null, function (err, res) {
+                SearchService.finalizePosts(res, function (errLikes, resFinal) {
+                    dispatcher.dispatch('funnyPostStore', 'populate', [resFinal]);
+                });
+            });
+        });
     });
 
     function onSignIn(googleUser) {
