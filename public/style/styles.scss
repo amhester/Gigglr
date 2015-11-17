@@ -85,7 +85,7 @@ body {
     @extend .mdl-cell, .mdl-cell--12-col-desktop;
     border-radius: 3px;
     h4 {
-      margin: 40px 10px 0 40px;
+      margin: 0;
     }
     p {
       margin: 0 40px 20px;
@@ -96,13 +96,18 @@ body {
   }
   .actions {
     margin: 0;
-    padding: 0;
-    text-align: right;
+    padding: 4px 40px;
+    color: inherit;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
     a {
-      color: $color-primary;
+      color: #00BCD4;
       margin: 0;
-      &:hover, &:active {
-        background-color: transparent;        
+      &:hover {
+        background-color: rgba(158,158,158, 0.20);
+        color: #333;
       }
     }
   }
@@ -113,9 +118,9 @@ body {
     right: 20px;
     color: $textGrey;
     cursor: pointer;
-    &:hover {
-      color: $color-primary;
-    }
+    //&:hover {
+    //  color: $color-primary;
+    //}
   }
   &.hasMedia {
     .postCard {
@@ -123,8 +128,8 @@ body {
     }
     .postMedia {
       @extend .mdl-cell--4-col-desktop;
-      height: 200px;
-      color: rgb(255,255,255);
+      //height: 250px;
+      //color: rgb(255,255,255);
       //background-color: rgb(178,223,219);
       border-radius: 3px;
       margin: $grid-desktop-gutter / 2;

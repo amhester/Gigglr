@@ -28,7 +28,7 @@ var FunnyPostCard = React.createClass({
         let post = this.props.post;
         let fav = { favicon: post.preference == 1 ? 'favorite' : 'favorite-border'};
         return (
-            <section className="postSection hasMedia" style={{position: 'relative'}}>
+            <section className={(post.mediaMetaData.type !== 'none') ? 'postSection hasMedia' : 'postSection'} style={{position: 'relative'}}>
                     {(function () {
                         if(post.mediaMetaData.type === 'image') {
                             return (
@@ -58,12 +58,12 @@ var FunnyPostCard = React.createClass({
                             return null;
                         }
                     })()}
-                <div className="postCard">
+                <div className="postCard mdl-card mdl-cell mdl-cell--12-col-desktop">
                     <div className="mdl-card__supporting-text">
                         <h4>{post.title}</h4>
                         {post.text}
                     </div>
-                    <div className="mdl-card__actions">
+                    <div className="actions">
                         <a href={post.source} target="_blank" className="mdl-button">Go to source</a>
                     </div>
                 </div>
