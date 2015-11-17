@@ -2,6 +2,7 @@
   "serverName": "Gigglr",
   "version": "0.0.1",
   "serverHost": "localhost",
+  "databaseHost": "http://docker01.qa1.us-east-1.local",
   "serverPort": 8179,
   "databasePort": 8182,
   "Queries": {

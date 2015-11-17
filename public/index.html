@@ -108,9 +108,13 @@
                 emailAddress: profile.getEmail()
             },
             url: 'http://localhost:8179/user/',
+            timeout: 7000,
             success: function (res) {
                 console.log('inserted' + JSON.stringify(res));
                 dispatcher.dispatch('funnyPostStore', 'signIn', [ true ]);
+            },
+            error: function (err) {
+                console.log(err);
             }
         });
 
