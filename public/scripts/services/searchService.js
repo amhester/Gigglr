@@ -9,7 +9,6 @@ class SearchService {
             url: 'http://localhost:8179/search/' + q,
             timeout: 7000,
             success: function (res) {
-                console.log(JSON.stringify(res));
                 var data = res.map(function (o) { return new FunnyPost(o); });
                 callback(null, data);
             },
@@ -27,7 +26,6 @@ class SearchService {
             url: fUrl,
             timeout: 7000,
             success: function (res) {
-                console.log(JSON.stringify(res));
                 var data = res.map(function (o) { return new FunnyPost(o); });
                 callback(null, data);
             },

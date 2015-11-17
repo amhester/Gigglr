@@ -1,8 +1,9 @@
 var FunnyPostCard = React.createClass({
     _changePreference (preference) {
-        InteractionService.changePreference(this.props.post.id, preference, function (err, res) {
-            dispatcher.dispatch('funnyPostStore', 'update', [res]);
-        });
+        dispatcher.dispatch('funnyPostStore', 'update', [{ id: this.props.post.id, vote: preference }]);
+        //InteractionService.changePreference(this.props.post.id, preference, function (err, res) {
+        //    dispatcher.dispatch('funnyPostStore', 'update', [res]);
+        //});
     },
 
     like (e) {
@@ -26,9 +27,9 @@ var FunnyPostCard = React.createClass({
 
     render () {
         let post = this.props.post;
-        let fav = { favicon: post.preference == 1 ? 'favorite' : 'favorite-border'};
+        let fav = post.preference == 1 ? 'favorite' : 'favorite_border';
         return (
-            <section className={(post.mediaMetaData.type !== 'none') ? 'postSection hasMedia' : 'postSection'} style={{position: 'relative'}}>
+            <section data-postid={post.id} className={(post.mediaMetaData.type !== 'none') ? 'postSection hasMedia' : 'postSection'} style={{position: 'relative'}}>
                     {(function () {
                         if(post.mediaMetaData.type === 'image') {
                             return (
@@ -68,7 +69,7 @@ var FunnyPostCard = React.createClass({
                     </div>
                 </div>
                 <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon favorite" style={this.state.styles} onClick={this.like} >
-                    <i className="material-icons">{fav.favicon}</i>
+                    <i className="material-icons" style={{ color: (fav === 'favorite') ? '#f00' : '#666' }}>{fav}</i>
                 </button>
             </section>
         );
