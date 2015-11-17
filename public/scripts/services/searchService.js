@@ -62,8 +62,8 @@ class SearchService {
             url: fUrl,
             timeout: 7000,
             success: function (res) {
-                var data = res.map(function (o) { return new FunnyPost(o); });
-                callback(null, data);
+                //var data = res.map(function (o) { return new FunnyPost(o); });
+                callback(null, res);
             },
             error: function (err) {
                 callback(err);

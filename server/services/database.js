@@ -226,7 +226,7 @@ class Database {
 
     getFavorites(){
         var query = function () {
-            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it) { return it.type == 1} ).inV();
+            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it) { return it.get().property('type').value() == 1} ).inV();
         };
         return query;
     }
