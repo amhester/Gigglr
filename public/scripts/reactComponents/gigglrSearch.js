@@ -3,7 +3,10 @@ var GigglrSearch = React.createClass({
         if(e.which === 13) {
             let q = $(e.target).val();
             SearchService.search(q, function (err, res) {
-                dispatcher.dispatch('funnyPostStore', 'populate', [res])
+                //dispatcher.dispatch('funnyPostStore', 'populate', [res]);
+                SearchService.finalizePosts(res, function (errLikes, resFinal) {
+                    dispatcher.dispatch('funnyPostStore', 'populate', [resFinal])
+                });
             });
         }
     },

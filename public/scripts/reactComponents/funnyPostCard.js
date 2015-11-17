@@ -1,9 +1,9 @@
 var FunnyPostCard = React.createClass({
     _changePreference (preference) {
-        dispatcher.dispatch('funnyPostStore', 'update', [{ id: this.props.post.id, vote: preference }]);
-        //InteractionService.changePreference(this.props.post.id, preference, function (err, res) {
-        //    dispatcher.dispatch('funnyPostStore', 'update', [res]);
-        //});
+        //dispatcher.dispatch('funnyPostStore', 'update', [{ id: this.props.post.id, vote: preference }]);
+        InteractionService.changePreference(this.props.post.id, preference, function (err, res) {
+            dispatcher.dispatch('funnyPostStore', 'update', [res]);
+        });
     },
 
     like (e) {

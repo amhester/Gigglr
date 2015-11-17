@@ -29,6 +29,9 @@ module.exports.register = function (server) {
     server.post('/shareContent/:q', function (req, res, next) {
         new Content().share(req, res, next);
     });
+    server.post('/finalizeContent/:q', function (req, res, next) {
+        new Content().finalizeContent(req, res, next);
+    });
     server.post('/deleteAllContent/:q', function (req, res, next) {
         new Content().dropAll(req, res, next);
     });

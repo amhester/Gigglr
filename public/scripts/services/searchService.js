@@ -9,6 +9,22 @@ class SearchService {
             url: 'http://localhost:8179/search/' + q,
             timeout: 7000,
             success: function (res) {
+                callback(null, res);
+            },
+            error: function (err) {
+                callback(err);
+            }
+        });
+    }
+
+    static finalizePosts (models, callback) {
+        var q = models;
+        $.ajax({
+            method: 'POST',
+            url: 'http://localhost:8179/finalizeContent/',
+            data: q,
+            timeout: 7000,
+            success: function (res) {
                 var data = res.map(function (o) { return new FunnyPost(o); });
                 callback(null, data);
             },

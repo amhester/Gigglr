@@ -25,6 +25,7 @@
     "DropAllContent": 15,
     "InsertTag": 16,
     "GetAllTags" : 17,
-    "GetContentByTag" : 18
+    "GetContentByTag" : 18,
+    "finalizeContent" : 19
   }
 }
