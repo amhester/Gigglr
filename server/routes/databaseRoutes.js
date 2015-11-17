@@ -65,5 +65,8 @@ module.exports.register = function (server) {
     server.get('/getViewedContentByUserId/:q', function (req, res, next) {
         new Content().getViewedByUserId(req, res, next);
     });
+    server.get('/getFavorites/:q', function (req, res, next) {
+        new Content().getFavorites(req, res, next);
+    });
 };
 
