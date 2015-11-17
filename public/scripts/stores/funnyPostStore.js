@@ -52,7 +52,7 @@ class FunnyPostStore {
 
     updatePost (result) {
         var post = this._posts.filter(function (it) {
-            return it.id == result.id;
+            return it.title == result.title;
         });
         post[0].preference = parseInt(result.vote, 10);
         this._emitChange();

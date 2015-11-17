@@ -2,7 +2,7 @@
   "serverName": "Gigglr",
   "version": "0.0.1",
   "serverHost": "localhost",
-  "databaseHost": "docker01.qa1.us-east-1.local",
+  "databaseHost": "localhost",
   "serverPort": 8179,
   "databasePort": 8182,
   "AppKey": "AIzaSyDHIiWActVZxN33I6oqFME8JtiDVBR8G0Y",
@@ -26,6 +26,6 @@
     "InsertTag": 16,
     "GetAllTags" : 17,
     "GetContentByTag" : 18,
-    "finalizeContent" : 19
+    "FinalizeContent" : 19
   }
 }

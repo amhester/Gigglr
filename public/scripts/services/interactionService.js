@@ -3,14 +3,14 @@ class InteractionService {
 
     }
 
-    static changePreference (id, preference, callback) {
+    static changePreference (title, preference, callback) {
         $.ajax({
             method: 'POST',
             url: 'http://localhost:8179/vote/',
-            data: { type: preference, contentId: id, emailAddress: $.cookie('userContext') },
+            data: { type: preference, title: title, emailAddress: $.cookie('userContext') },
             timeout: 7000,
             success: function (res) {
-                callback(null, {vote: res, id: id});
+                callback(null, {vote: res, title: title});
             },
             error: function (err) {
                 console.log('error');

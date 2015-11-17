@@ -4,7 +4,7 @@ var gremlin = require('gremlin-client');
 var bunyan = require('bunyan');
 var appConfig = require('./../app.config.json');
 var log = bunyan.createLogger({name: 'com.gigglr.services.database.logger'});
-var nlp = require("nlp_compromise")
+var nlp = require("nlp_compromise");
 var COMMIT_ME = function () { g.tx().commit(); };
 
 class Database {
@@ -53,8 +53,7 @@ class Database {
             });
 
             self._streams[counter].on('end', function() {
-                if (self._resultLength <= self._results.length || (self._results.length == 0 && self._resultLength == 1)){
-                    console.log('returnData');
+                if (self._resultLength <= self._results.length || self._results.length == 0){
                     callback(false, self._results, self._res, self._req, self._next, self._finalCallback);
                 }
             });
@@ -92,6 +91,9 @@ class Database {
             case appConfig.Queries.DropAllContent:
                 buildQuery = this.dropAllContent();
                 shouldCommit = true;
+                break;
+            case appConfig.Queries.FinalizeContent:
+                buildQuery = this.finalizeContent();
                 break;
             case appConfig.Queries.RequestBuddy:
                 buildQuery = this.requestBuddy();
@@ -219,6 +221,16 @@ class Database {
         return query;
     }
 
+    finalizeContent(){
+        var query = function () {
+            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote")
+                .filter(function(it){
+                    return it.get().property('type').value() == 1}
+            ).inV();
+        };
+        return query;
+    }
+
     //**********************************__END_GETS__******************************
     //****************************************************************************
     //**********************************__WRITES__********************************
@@ -253,14 +265,14 @@ class Database {
 
     voteContent(){
         var query = function () {
-            var path = g.V().has('emailAddress', emailAddress).hasLabel('User').outE('UserVote').hasLabel('UserVote').bothV().hasLabel('Content').has('customId', contentId).path();
+            var path = g.V().has('emailAddress', emailAddress).hasLabel('User').outE('UserVote').inV().hasLabel('Content').has('title', title).path();
             if (path.hasNext()){
                 var edge = path.next().get(1);
                 edge.property('type', type);
                 type;
             }
             else{
-                var edge = g.V().has('emailAddress', emailAddress).hasLabel('User').next().addEdge('UserVote', g.V().has('customId', contentId).hasLabel('Content').next(), []);
+                var edge = g.V().has('emailAddress', emailAddress).hasLabel('User').next().addEdge('UserVote', g.V().has('title', title).hasLabel('Content').next(), []);
                 edge.property('type', type);
                 type;
             }

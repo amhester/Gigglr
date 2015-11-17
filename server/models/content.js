@@ -155,9 +155,10 @@ var externalLink = Symbol();
 
      finalizeContent(req, res, next, callback){
          var q = {
-             query: appConfig.Queries.finalizeContent,
-             params: { models: req.params  }
+             query: appConfig.Queries.FinalizeContent,
+             params: { emailAddress: req.params.emailAddress}
          };
+
          this.executeBaseQuery(q, req, res, next, callback);
      }
 

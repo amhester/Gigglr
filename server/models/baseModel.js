@@ -28,7 +28,7 @@ class BaseModel{
     }
 
     emitResult(resultObject, res, req, next) {
-        console.log('fail');
+
         if(resultObject.error) {
             res.send(500, resultObject.error);
         } else {

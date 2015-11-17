@@ -63,9 +63,9 @@ module.exports.register = function (server) {
                     }
                 }
 
-                res.send(200, parsedContent.map(function (it) { return it.toJson(); }));
+                res.send(200, parsedContent.map(function (it) { return it.toJson() }));
 
-                new Content().insertOrGetAll(parsedContent, req, res, next, function() {});
+                new Content().insertOrGetAll(parsedContent, req, res, next, function () {});
             }
         );
     });
