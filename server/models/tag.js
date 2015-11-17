@@ -53,7 +53,7 @@ var type = Symbol();
              query: appConfig.Queries.InsertTag,
              params: this.toDataInsertJson()
          };
-         this.executeBaseQuery(q, req, res, next);
+         this.executeBaseQuery(q, req, res, next, function () {});
      }
 
      toDataInsertJson(){
@@ -86,12 +86,14 @@ var type = Symbol();
         var returnObject = {};
         returnObject.models = [];
         for (var i = 0; i < results.length; i++){
-            returnObject.models.push(new Tag(
-                results[i].properties.tagType ? results[i].properties.tagType[0].value : '',
-                results[i].properties.title ? results[i].properties.title[0].value : '',
-                results[i].properties.varieties ? results[i].properties.varieties[0].value.split(',') : '',
-                results[i].id
-            ));
+            if (results[i] != null){
+                returnObject.models.push(new Tag(
+                    results[i].properties.tagType ? results[i].properties.tagType[0].value : '',
+                    results[i].properties.title ? results[i].properties.title[0].value : '',
+                    results[i].properties.varieties ? results[i].properties.varieties[0].value.split(',') : '',
+                    results[i].id
+                ));
+            }
         }
         returnObject.error = error;
         callback(returnObject, res, req, next);

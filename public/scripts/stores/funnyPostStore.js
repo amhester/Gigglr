@@ -50,8 +50,12 @@ class FunnyPostStore {
 
     }
 
-    updatePost (post) {
-
+    updatePost (result) {
+        var post = this._posts.filter(function (it) {
+            return it.id == result.id;
+        });
+        post[0].preference = parseInt(result.vote, 10);
+        this._emitChange();
     }
 
     clearAll () {

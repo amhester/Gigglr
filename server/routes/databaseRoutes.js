@@ -24,7 +24,7 @@ module.exports.register = function (server) {
         new Content().create(req, res, next);
     });
     server.post('/vote/:q', function (req, res, next) {
-        new Content.vote(req, res, next);
+        new Content().vote(req, res, next);
     });
     server.post('/shareContent/:q', function (req, res, next) {
         new Content().share(req, res, next);

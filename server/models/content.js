@@ -97,15 +97,23 @@ var externalLink = Symbol();
          this[tags] = value;
      }
 
-     insert(req, res, next){
+     insert(req, res, next, callback){
          var q = {
              query: appConfig.Queries.InsertContent,
              params: this.toDataInsertJson()
          };
-         this.executeBaseQuery(q, req, res, next);
+         this.executeBaseQuery(q, req, res, next, callback);
      }
 
-     create(req, res, next, callback){
+     insertOrGetAll(models, req, res, next, callback){
+         var q = {
+             query: appConfig.Queries.InsertContent,
+             params: models.map(function (it) { return it.toDataInsertJson() })
+         };
+         this.executeBaseQuery(q, req, res, next, callback);
+     }
+
+     create(req, res, next, callback){ res.send(200, parsedContent.map(function (it){return it.toJson()}));
          var q = {
              query: appConfig.Queries.InsertContent,
              params: req.params
@@ -262,24 +270,31 @@ var externalLink = Symbol();
         var returnObject = {};
         returnObject.models = [];
         for (var i = 0; i < results.length; i++){
-            returnObject.models.push(new Content(
-                results[i].id,
-                results[i].properties.types ? results[i].properties.types.value : '',
-                results[i].properties.title ? results[i].properties.title[0].value : '',
-                {
-                    link: results[i].properties.imageLink ? results[i].properties.imageLink[0].value : '',
-                    height: results[i].properties.imageHeight ? results[i].properties.imageHeight[0].value : '',
-                    width: results[i].properties.imageHeight ? results[i].properties.imageHeight[0].value : ''
-                },
-                {
-                    link: results[i].properties.videoLink ? results[i].properties.videoLink[0].value : '',
-                    height: results[i].properties.videoHeight ? results[i].properties.videoHeight[0].value : '',
-                    width: results[i].properties.videoWidth ? results[i].properties.videoWidth[0].value : ''
-                },
-                results[i].properties.externalLink ? results[i].properties.externalLink[0].value : '',
-                results[i].properties.extraContent ? results[i].properties.extraContent[0].value : '',
-                results[i].properties.customId ? results[i].properties.customId[0].value : ''
-            ));
+            if (results[i] != null){
+                if (results[i].id){
+                    returnObject.models.push(new Content(
+                        results[i].id,
+                        results[i].properties.types ? results[i].properties.types.value : '',
+                        results[i].properties.title ? results[i].properties.title[0].value : '',
+                        {
+                            link: results[i].properties.imageLink ? results[i].properties.imageLink[0].value : '',
+                            height: results[i].properties.imageHeight ? results[i].properties.imageHeight[0].value : '',
+                            width: results[i].properties.imageHeight ? results[i].properties.imageHeight[0].value : ''
+                        },
+                        {
+                            link: results[i].properties.videoLink ? results[i].properties.videoLink[0].value : '',
+                            height: results[i].properties.videoHeight ? results[i].properties.videoHeight[0].value : '',
+                            width: results[i].properties.videoWidth ? results[i].properties.videoWidth[0].value : ''
+                        },
+                        results[i].properties.externalLink ? results[i].properties.externalLink[0].value : '',
+                        results[i].properties.extraContent ? results[i].properties.extraContent[0].value : '',
+                        results[i].properties.customId ? results[i].properties.customId[0].value : ''
+                    ));
+                }
+                else{
+                    returnObject.models.push(results[i]);
+                }
+            }
         }
         returnObject.error = error;
         callback(returnObject, res, req, next);

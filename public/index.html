@@ -100,7 +100,7 @@
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
         userContext = profile;
-        $.cookie('userContext', JSON.stringify(profile));
+        $.cookie('userContext', profile.getEmail());
         $.ajax({
             method: 'POST',
             data: {

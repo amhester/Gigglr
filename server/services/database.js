@@ -30,25 +30,39 @@ class Database {
             callback(createError('Invalid query object'), []);
         }
 
-        console.log(q.params);
-        var stream = self._client.stream(queryObject.query, q.params);
+        self._streams = [];
+        if (q.params.length){
+            self._resultLength = q.params.length;
+            for (var s = 0; s < q.params.length; s++){
+                self._streams.push(self._client.stream(queryObject.query, q.params[s]));
+            }
+        }
+        else{
+            self._resultLength = 1;
+            self._streams.push(self._client.stream(queryObject.query, q.params));
+        }
 
         if (queryObject.commitTransaction){
             self._client.stream(COMMIT_ME);
         }
 
-        stream.on('data', function(result) {
-            self._results.push(result);
-        });
+        for (var counter = 0; counter < self._streams.length; counter++){
+            self._streams[counter].on('data', function(result) {
+                self._results.push(result);
+            });
 
-        stream.on('end', function() {
-            console.log(self._results);
-            callback(false, self._results, self._res, self._req, self._next, self._finalCallback);
-        });
+            self._streams[counter].on('end', function() {
+                if (self._resultLength <= self._results.length || (self._results.length == 0 && self._resultLength == 1)){
+                    console.log('returnData');
+                    callback(false, self._results, self._res, self._req, self._next, self._finalCallback);
+                }
+            });
 
-        stream.on('error', function(e) {
-            callback(e, [], self._res, self._req, self._next, self._finalCallback);
-        });
+            self._streams[counter].on('error', function(e) {
+                callback(e, [], self._res, self._req, self._next, self._finalCallback);
+            });
+        }
+
 
     }
 
@@ -199,7 +213,7 @@ class Database {
 
     getViewedUserContent(){
         var query = function () {
-            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it){ return it.type != 'shared' } ).inV();
+            g.V().hasLabel('User').has('emailAddress', emailAddress).outE("UserVote").filter(function(it){ return it.type != '2'} ).inV();
         };
         return query;
     }
@@ -238,9 +252,18 @@ class Database {
 
     voteContent(){
         var query = function () {
-            var edge = g.V().hasLabel('User').has('emailAddress', emailAddress).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
-            edge.property('type', type);
-            edge;
+            var path = g.V().has('emailAddress', emailAddress).hasLabel('User').outE('UserVote').hasLabel('UserVote').bothV().hasLabel('Content').has('customId', contentId).path();
+            if (path.hasNext()){
+                var edge = path.next().get(1);
+                edge.property('type', type);
+                type;
+            }
+            else{
+                var edge = g.V().has('emailAddress', emailAddress).hasLabel('User').next().addEdge('UserVote', g.V().has('customId', contentId).hasLabel('Content').next(), []);
+                edge.property('type', type);
+                type;
+            }
+
         };
         return query;
     }
@@ -249,7 +272,7 @@ class Database {
         var query = function () {
             var result = [];
             if (!g.V().hasLabel('User').has('emailAddresss', buddyEmailAddress).hasLabel('User').outE('UserVote').inV().hasNext()){
-                result = g.V().hasLabel('User').has('emailAddress', buddEmailAddress).next().addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
+                result = g.V().has('emailAddress', buddyEmailAddress).hasLabel('User').addEdge('UserVote', g.V().hasLabel('Content').has('customId', contentId).next(), []);
                 result.property('type', 'Shared');
             }
             result;
@@ -282,9 +305,14 @@ class Database {
                     while (verticies.hasNext()){
                         edge = vertex.addEdge("ContentTag", verticies.next(), []);
                     }
+                    vertex;
                 }
             }
-            edge;
+            else
+            {
+                g.V().has('title', title).next();
+            }
+
         };
         return query;
     }

@@ -6,13 +6,13 @@ class InteractionService {
     static changePreference (id, preference, callback) {
         $.ajax({
             method: 'POST',
-            url: 'http://localhost:8179/vote',
-            data: { type: preference, contentId: id, emailAddress: JSON.parse($.cookie('userContext')) },
+            url: 'http://localhost:8179/vote/',
+            data: { type: preference, contentId: id, emailAddress: $.cookie('userContext') },
             success: function (res) {
-                callback(null, res);
+                callback(null, {vote: res, id: id});
             },
             error: function (err) {
-                callback(err);
+                console.log('error');
             }
         });
     }

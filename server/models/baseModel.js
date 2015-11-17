@@ -44,14 +44,18 @@ class BaseModel{
             else
             {
                 if (resultObject.models && resultObject.models.length){
-                    res.send(200, resultObject.models[0].toJson());
+                    if (resultObject.models[0] instanceof BaseModel){
+                        res.send(200, resultObject.models[0].toJson());
+                    }
+                    else{
+                        res.send(200, resultObject.models[0]);
+                    }
                 }
                 else{
                     res.send(200, '');
                 }
             }
         }
-        next();
     };
 
     query(q, callback, res, req, next){

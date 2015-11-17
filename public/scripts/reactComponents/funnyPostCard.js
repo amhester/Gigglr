@@ -1,17 +1,12 @@
 var FunnyPostCard = React.createClass({
     _changePreference (preference) {
         InteractionService.changePreference(this.props.post.id, preference, function (err, res) {
-            dispatcher.dispatch('funnyPostStore', 'update', [res.post]);
+            dispatcher.dispatch('funnyPostStore', 'update', [res]);
         });
     },
 
     like (e) {
         let pref = (this.props.post.preference === 0) ? 1 : 0;
-        this._changePreference(pref);
-    },
-
-    unlike (e) {
-        let pref = (this.props.post.preference === 0) ? -1 : 0;
         this._changePreference(pref);
     },
 
@@ -31,6 +26,7 @@ var FunnyPostCard = React.createClass({
 
     render () {
         let post = this.props.post;
+        let fav = { favicon: post.preference == 1 ? 'favorite' : 'favorite-border'};
         return (
             <section className="postSection hasMedia" style={{position: 'relative'}}>
                     {(function () {
@@ -71,9 +67,8 @@ var FunnyPostCard = React.createClass({
                         <a href={post.source} target="_blank" className="mdl-button">Go to source</a>
                     </div>
                 </div>
-                <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon favorite" style={this.state.styles}>
-
-                    <i className="material-icons">favorite_border</i>
+                <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon favorite" style={this.state.styles} onClick={this.like} >
+                    <i className="material-icons">{fav.favicon}</i>
                 </button>
             </section>
         );

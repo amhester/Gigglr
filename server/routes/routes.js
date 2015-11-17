@@ -4,7 +4,7 @@ var data = require('../testData.json');
 var User = require('../models/user.js');
 var Content = require('../models/content.js');
 var Tag = require('../models/tag.js');
-var nlp = require("nlp_compromise")
+var nlp = require("nlp_compromise");
 
 module.exports = {};
 
@@ -15,13 +15,7 @@ module.exports.register = function (server) {
         var returnData = data;
         var parsedContent = [];
 
-        /*TODO: Using NLP and our burned data, determine if we need to reach out to google, or if we have already
-          burned things that we can load that they have not seen yet. Load them all in, if ther are less than 10,
-          reach out to google*/
-
         var something =  nlp.pos(q);
-        console.log(something.text());
-
         var verbs = something.verbs();
         var nouns = something.nouns();
         var adjs = something.adjectives();
@@ -57,12 +51,7 @@ module.exports.register = function (server) {
             }
         }
 
-        for (var j = 0; j < parsedContent.length; j++){
-            parsedContent[j].insert(req, res, next);
-        }
-
-        res.send(200, parsedContent.map(function (it){return it.toJson()}));
-        next();
+        new Content().insertOrGetAll(parsedContent, req, res, next);
     });
 
 };

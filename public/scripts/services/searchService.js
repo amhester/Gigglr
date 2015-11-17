@@ -8,6 +8,7 @@ class SearchService {
             method: 'GET',
             url: 'http://localhost:8179/search/' + q,
             success: function (res) {
+                console.log(JSON.stringify(res));
                 var data = res.map(function (o) { return new FunnyPost(o); });
                 callback(null, data);
             },
