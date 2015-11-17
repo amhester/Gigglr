@@ -11,7 +11,7 @@ class Database {
 
     constructor () {
         if (!global.dbClient){
-            global.dbClient = gremlin.createClient(appConfig.databasePort, appConfig.serverHost, { language: 'nashorn', session: true});
+            global.dbClient = gremlin.createClient(appConfig.databasePort, appConfig.databaseHost, { language: 'nashorn', session: true});
         }
         this._client = global.dbClient;
     }
