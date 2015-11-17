@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link href='https://fonts.googleapis.com/css?family=Dosis:400,500,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!--build:css style/styles.css -->
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
     <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
@@ -63,7 +63,7 @@
         <div id="GigglrSearchContainer">
         </div>
         
-        <div id="PostListContainer">
+        <div id="PostListContainer" class="">
         </div>
     </main>
 </div>
@@ -76,42 +76,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 
 <script>
-$( document ).ready(function() {
-    $('#GigglrSearchContainerSml').hide();
-    $(window).scroll(function() {
-        if ($(this).scrollTop()>30)
-        {
-            $('#GigglrSearchContainerSml').fadeIn();
-            $('#GigglrSearchContainer').fadeOut();
-        }
-        else
-        {
-            $('#GigglrSearchContainer').fadeIn();
-            $('#GigglrSearchContainerSml').fadeOut();
-        }
-    });
-});
-
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    userContext = profile;
-    $.cookie('userContext', JSON.stringify(profile));
-    $.ajax({
-        method: 'POST',
-        data: {
-            userName : profile.getName(),
-            emailAddress: profile.getEmail()
-        },
-        url: 'http://localhost:8179/user/',
-        success: function (res) {
-            console.log('inserted' + JSON.stringify(res));
-        }
+    $(document).ready(function() {
+        $('#GigglrSearchContainerSml').hide();
+        $(window).scroll(function() {
+            if ($(this).scrollTop()>30)
+            {
+                $('#GigglrSearchContainerSml').fadeIn();
+                $('#GigglrSearchContainer').fadeOut();
+            }
+            else
+            {
+                $('#GigglrSearchContainer').fadeIn();
+                $('#GigglrSearchContainerSml').fadeOut();
+            }
+        });
+        dispatcher.dispatch('funnyPostStore', 'signIn', [ $.cookie('userContext') ? true : false ]);
     });
 
-}
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        userContext = profile;
+        $.cookie('userContext', JSON.stringify(profile));
+        $.ajax({
+            method: 'POST',
+            data: {
+                userName : profile.getName(),
+                emailAddress: profile.getEmail()
+            },
+            url: 'http://localhost:8179/user/',
+            success: function (res) {
+                console.log('inserted' + JSON.stringify(res));
+                dispatcher.dispatch('funnyPostStore', 'signIn', [ true ]);
+            }
+        });
+
+    }
 </script>
 
 <!-- Our Scripts -->
@@ -142,6 +145,7 @@ function onSignIn(googleUser) {
 <!--build:js scripts/app.js -->
 <script type="text/javascript" src="scripts/app.js"></script>
 <!-- endbuild -->
+
 
 </body>
 </html>

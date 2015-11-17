@@ -3,9 +3,12 @@ class FunnyPostStore {
         this._name = name;
         this._posts = [];
         this._register();
+        this._signedIn = false;
     }
 
     get name () { return this._name; }
+
+    get signedIn () { return this._signedIn; }
 
     _register () {
         dispatcher.register(
@@ -16,7 +19,8 @@ class FunnyPostStore {
                 populate: this.populate,
                 update: this.updatePost,
                 remove: this.removePost,
-                clear: this.clearAll
+                clear: this.clearAll,
+                signIn: this.changedSignedIn
             }
         );
     }
@@ -52,5 +56,10 @@ class FunnyPostStore {
 
     clearAll () {
 
+    }
+
+    changedSignedIn(signedIn){
+        this._signedIn = signedIn;
+        this._emitChange();
     }
 }

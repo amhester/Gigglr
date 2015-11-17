@@ -1,6 +1,6 @@
-var eventer = new EventEmitter();
+window.eventer = new EventEmitter();
 var dispatcher = new Dispatcher();
-var funnyPostStore = new FunnyPostStore('funnyPostStore');
+window.funnyPostStore = new FunnyPostStore('funnyPostStore');
 
 function init() {
     ReactDOM.render(
@@ -13,5 +13,4 @@ function init() {
         document.querySelector('#PostListContainer')
     );
 }
-
 init();

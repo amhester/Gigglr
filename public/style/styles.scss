@@ -52,7 +52,7 @@
 $textGrey: rgb(97,97,97);
 $offWhite: rgb(245,245,245);
 $color-primary: unquote("rgb(#{$color-primary})");
-$width: 860px;
+$width: 960px;
 
 html, body {
   font-family: 'Dosis', 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -73,9 +73,13 @@ body {
 .postSection {
   @extend .mdl-grid;
   @extend .mdl-shadow--2dp;
+  background-color: rgb(255,255,255);
   max-width: $width;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   .postCard {
     @extend .mdl-card;
     @extend .mdl-cell, .mdl-cell--12-col-desktop;
@@ -115,13 +119,13 @@ body {
   }
   &.hasMedia {
     .postCard {
-      @extend .mdl-cell--9-col-desktop;
+      @extend .mdl-cell--8-col-desktop;
     }
     .postMedia {
-      @extend .mdl-cell--3-col-desktop;
-      min-height: 200px;
+      @extend .mdl-cell--4-col-desktop;
+      height: 200px;
       color: rgb(255,255,255);
-      background-color: rgb(178,223,219);
+      //background-color: rgb(178,223,219);
       border-radius: 3px;
       margin: $grid-desktop-gutter / 2;
       .material-icons {
@@ -132,4 +136,18 @@ body {
       }
     }
   }
+}
+
+.aspect-ratio {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 25px;
+  height: 0;
+}
+
+.aspect-ratio iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0; top: 0;
 }

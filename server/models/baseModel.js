@@ -43,7 +43,7 @@ class BaseModel{
             }
             else
             {
-                if (resultObjext.models && resultObject.models.length){
+                if (resultObject.models && resultObject.models.length){
                     res.send(200, resultObject.models[0].toJson());
                 }
                 else{
