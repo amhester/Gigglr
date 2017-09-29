@@ -16,7 +16,7 @@ This project was created for the 2015 Geofeedia HAckaTh0n, and also because we t
 
 ## Technologies Used
 
-###Front-End
+### Front-End
 * React/Flux
 * Material Design
 * Google Sign-In
@@ -24,17 +24,17 @@ This project was created for the 2015 Geofeedia HAckaTh0n, and also because we t
 * Babel
 * sass
 
-###Server
+### Server
 * Nodejs
 * Restify 
 * gremlin-client
 * gulp
 * natural-node (nlp)
 
-###Database
+### Database
 * TitanDB
 
-###API's
+### API's
 * Google Custom Search Engine API
 
 ## API Reference
@@ -44,7 +44,7 @@ Here are the endpoints our service exposes:
 * `/search/:q`, This is our main route for performing searches:
   * `q`, A string which will be used as the search term or phrase.
 
-##Features
+## Features
 
 * Search
   * Search for funny content on the web based on whatever term or phrase you enter.
@@ -53,7 +53,7 @@ Here are the endpoints our service exposes:
   * Allow people signed in to their google account to favorite content.
   * This will be used for storing your favorites and also improving your results.
 
-##Stretch Goals
+## Stretch Goals
 
 * Giggle Buddies
   * be able to add 'giggle buddies' who share similar humor and share favorited content between them.
@@ -62,7 +62,7 @@ Here are the endpoints our service exposes:
 * Utilize TensorFlow for advanced recommendation engine.
 * Get Will a girlfriend.
 
-##Issues Encountered
+## Issues Encountered
 
 ## Tests
 
@@ -72,5 +72,5 @@ No tests yet :(
 
 Alex Hester, Will Jaynes, Daniel Mallinak, Jon Scott, Juan Faustd
 
-###Special Thanks
+### Special Thanks
 Steven Schweibold
